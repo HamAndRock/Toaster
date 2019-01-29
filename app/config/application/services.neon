@@ -1,0 +1,7 @@
+services:
+	# Router
+	routing.router: App\Factories\RouterFactory::create
+
+	# Cache
+	- App\Models\Cache\CacheHandler
+

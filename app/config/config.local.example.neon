@@ -1,0 +1,8 @@
+parameters:
+	# Mailer SMTP
+	mail:
+		host: 'smtp.mailtrap.io'
+		username:
+		password:
+		secure: tls
+		port: 2525

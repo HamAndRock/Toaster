@@ -1,0 +1,34 @@
+# Include external config files
+includes:
+	- application/services.neon
+	- application/factories.neon
+
+php:
+	date.timezone: Europe/Prague
+
+session:
+	expiration: 14 days
+	savePath: '%tempDir%/sessions'
+
+application:
+	errorPresenter: Error
+	scanDirs: off
+	mapping:
+		*: [App, Modules\*, Presenters\*\*Presenter]
+
+tracy:
+	fromEmail: mailer@sitole.cz
+	email: sveceny@sitole.cz
+	strictMode: true
+	maxLength: 1500
+	maxDepth: 5
+
+# Mail configuration
+mail:
+	smtp: true
+	persistent: true
+	host: %mail.host%
+	username: %mail.username%
+	password: %mail.password%
+	secure: %mail.secure%
+	port: %mail.port%

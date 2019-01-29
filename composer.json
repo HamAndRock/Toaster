@@ -1,0 +1,43 @@
+{
+	"name": "sitole/toaster",
+	"authors": [
+		{
+			"name": "Jiří Svěcený",
+			"homepage": "https://sitole.cz"
+		}
+	],
+	"type": "project",
+	"require": {
+		"php": ">= 7.1",
+		"ext-openssl": "*",
+		"ext-mbstring": "*",
+
+		"nette/application": "^2.5",
+		"nette/bootstrap": "^2.5",
+		"nette/caching": "^2.5",
+		"nette/di": "^2.5",
+		"nette/http": "^2.5",
+		"nette/mail": "^2.5",
+		"nette/security": "^2.5",
+		"nette/utils": "^2.5",
+		"latte/latte": "^2.5",
+		"tracy/tracy": "^2.5",
+		"symfony/dom-crawler": "^4.2",
+		"symfony/css-selector": "^4.2"
+	},
+	"require-dev": {
+		"phpstan/phpstan-nette": "^0.10"
+	},
+	"autoload": {
+		"psr-4": {
+			"App\\": "app"
+		}
+	},
+	"minimum-stability": "stable",
+	"prefer-stable": true,
+	"scripts": {
+		"phpstan": [
+			"vendor/bin/phpstan analyse app -c phpstan.neon --level 6 --no-progress"
+		]
+	}
+}

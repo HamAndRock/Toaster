@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="cs">
+	<head>
+		<meta charset="utf-8">
+		<meta name="robots" content="index, follow">
+		<meta name="generator" content="Nette Framework">
+		<meta name="viewport" content="width=device-width">
+		<meta name="description" content="Toustbot a výběr jeho oblíbených restaurací v Jičíně.">
+
+		<title>{include title|strip} - Toustbot a výběr jeho oblíbených restaurací v Jičíně</title>
+
+		<meta property="og:url" content="{$baseUrl}">
+		<meta property="og:image" content="{$baseUrl}/images/miniature.jpg">
+		<meta property="og:title" content="{include title|strip} - Toustbot a výběr jeho oblíbených restaurací v Jičíně">
+		<meta property="og:description" content="Toustbot a výběr jeho oblíbených restaurací v Jičíně.">
+
+		<link rel="shortcut icon" type="image/png" href="{$baseUrl}/favicon.ico">
+
+		{* Style assets *}
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+	</head>
+	<body>
+		{* Flash messages printout *}
+		<div class="container mt-3" n:snippet="flash-messages" n:inner-foreach="$flashes as $flash">
+			<div class="alert alert-dismissible fade show alert-primary {$flash->type}">
+				{$flash->message}
+				<button type="button" class="close" data-dismiss="alert" aria-label="Zavřít">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+		</div>
+
+		{include content}
+
+		{* JavaScript assets *}
+		<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+	</body>
+</html>

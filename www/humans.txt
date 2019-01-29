@@ -1,0 +1,8 @@
+Developer
+Site: sveceny [at] sitole.cz
+Twitter: @jirisveceny
+Location: Czech Republic
+
+Standards: HTML5, CSS3, DRY, OOP
+Components: Nette, jQuery, Bootstrap 4
+Software: PHPStorm

@@ -1,0 +1,30 @@
+language: php
+php:
+    - 7.1
+    - 7.2
+
+install:
+    # Install Nette Code Checker
+    - travis_retry composer create-project nette/code-checker temp/code-checker ^3.0 --no-progress
+
+    # Install Nette Coding Standard
+    - travis_retry composer create-project nette/coding-standard temp/coding-standard ^2 --no-progress
+
+script:
+    - php temp/code-checker/code-checker --short-arrays --strict-types --fix --no-progress
+    - php temp/coding-standard/ecs check app --config temp/coding-standard/coding-standard-php71.yml
+
+    # PHPStan code integrity checker
+    - composer phpstan
+
+before_script:
+    - composer install --no-interaction --prefer-dist
+
+sudo: false
+
+cache:
+    directories:
+        - $HOME/.composer/cache
+
+notifications:
+    email: false
