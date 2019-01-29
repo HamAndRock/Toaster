@@ -29,9 +29,24 @@ class HomePresenter extends OverviewPresenter
 	 */
 	public function renderDefault(string $slugName = null): void
 	{
-		$days = ['pondeli', 'utery', 'streda', 'ctvrtek', 'patek'];
+		$days = [
+			'pondeli' => 'pondělí',
+			'utery' => 'úterý',
+			'streda' => 'středa',
+			'ctvrtek' => 'čtvrtek',
+			'patek' => 'pátek',
+		];
+		$slugs = array_keys($days);
+
+		// Redirect to actual day with filled slug
+		if ($slugName === null) {
+			$actual = (int) date('N'); // Actual week day
+			$temp = $actual > 5 ? 1 : $actual; // Ignore weekends
+			$this->redirect('this', $slugs[$temp - 1]);
+		}
 
 		$this->template->restaurants = $this->restaurantsFactory->getRestaurants();
-		$this->template->day = in_array($slugName, $days, true) ? array_search($slugName, $days, true) : 0;
+		$this->template->now = in_array($slugName, $slugs, true) ? array_search($slugName, $slugs, true) : 0;
+		$this->template->days = $days;
 	}
 }

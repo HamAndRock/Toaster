@@ -6,29 +6,32 @@
 	<div class="container mb-4">
 		<h2>🍺 Copak máme dnes v Jičíně k obědu?</h2>
 
-		<a n:href="this 'pondeli'">pondělí</a> /
-		<a n:href="this 'utery'">úterý</a> /
-		<a n:href="this 'streda'">středa</a> /
-		<a n:href="this 'ctvrtek'">čtvrtek</a> /
-		<a n:href="this 'patek'">pátek</a>
+		{* Generate menu *}
+		<div class="btn-group btn-group-toggle mt-3" n:inner-foreach="$days as $webalize => $name">
+			<a class="btn btn-primary {ifCurrent Home:Default $webalize}active{/ifCurrent}" n:href="this $webalize">
+				{$name}
+			</a>
+		</div>
 
-		{cache 'overview' . $day, expire => '+12 hours'}
+		{cache 'overview' . $now, expire => '+24 hours'}
 			{foreach $restaurants as $restaurant}
 				<div class="card mt-4">
 					<div class="card-header">{$restaurant->getname()}</div>
 					<div class="card-body">
-						polévky:
-						<span n:foreach="$restaurant->getsoups($day) as $soup">
+						Polévky:
+						{foreach $restaurant->getsoups($now) as $soup}
 							{$soup->name}{sep}, {/sep}
-						</span>
-						<ul n:inner-foreach="$restaurant->getmeals($day) as $meal">
+						{/foreach}
+
+						<ul n:inner-foreach="$restaurant->getmeals($now) as $meal">
 							<li class="mt-4 mt-md-1">
 								{$meal->name}
 								<b>({$meal->price} kč)</b>
 							</li>
 						</ul>
-						<a href="{$restaurant->getlink()}" class="d-none d-md-inline btn btn-primary">přejít na web
-							restaurace</a>
+						<a href="{$restaurant->getlink()}" class="d-none d-md-inline btn btn-primary">
+							Přejít na web restaurace
+						</a>
 					</div>
 				</div>
 			{/foreach}
