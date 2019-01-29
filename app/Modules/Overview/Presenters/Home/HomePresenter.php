@@ -17,19 +17,19 @@ use App\Modules\Overview\OverviewPresenter;
 class HomePresenter extends OverviewPresenter
 {
 	/**
-     * @var RestaurantsFactory
-     * @inject
-     */
+	 * @var RestaurantsFactory
+	 * @inject
+	 */
 	public $restaurantsFactory;
 
 
-    /**
-     * Render menu
-     * @param string|null $slugName
-     */
+	/**
+	 * Render menu
+	 * @param string|null $slugName
+	 */
 	public function renderDefault(string $slugName = null): void
 	{
-	    $days = ['pondeli', 'utery', 'streda', 'ctvrtek', 'patek'];
+		$days = ['pondeli', 'utery', 'streda', 'ctvrtek', 'patek'];
 
 		$this->template->restaurants = $this->restaurantsFactory->getRestaurants();
 		$this->template->day = in_array($slugName, $days) ? array_search($slugName, $days) : 0;

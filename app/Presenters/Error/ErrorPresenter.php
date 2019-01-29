@@ -36,11 +36,10 @@ class ErrorPresenter extends BasePresenter
 
 		// Manage bad ajax request
 		if ($this->ajax) {
-			$this->payload->error = true;
-			$this->terminate();
+		    return new Application\Responses\JsonResponse(['error' => true]);
 		}
 
-		// Log bad request exception code
+		// Handle bad request exception
 		if ($exception instanceof Application\BadRequestException) {
 			$this->logger->log('HTTP code ' . $exception->getHttpCode(), ILogger::INFO);
 		}

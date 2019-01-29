@@ -31,7 +31,7 @@ class Item
 	/**
 	 * Item constructor
 	 * @param string $name
-	 * @param int $price|null
+	 * @param int $price |null
 	 */
 	public function __construct(string $name, int $price = null)
 	{

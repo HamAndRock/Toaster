@@ -15,34 +15,34 @@ use Nette\DI\Container;
 
 class RestaurantsFactory
 {
-    /**
-     * @var Container
-     */
-    private $container;
+	/**
+	 * @var Container
+	 */
+	private $container;
 
 
-    /**
-     * RestaurantsFactory constructor.
-     * @param Container $container
-     */
-    public function __construct(Container $container)
-    {
-        $this->container = $container;
-    }
+	/**
+	 * RestaurantsFactory constructor.
+	 * @param Container $container
+	 */
+	public function __construct(Container $container)
+	{
+		$this->container = $container;
+	}
 
 
-    /**
-     * Get restaurants
-     * @return IRestaurant[]
-     */
-    public function getRestaurants(): array
-    {
-        $restaurants = [];
+	/**
+	 * Get restaurants
+	 * @return IRestaurant[]
+	 */
+	public function getRestaurants(): array
+	{
+		$restaurants = [];
 
-        foreach ($this->container->findByTag('restaurant') as $name => $value) {
-            $restaurants[] = $this->container->getService($name);
-        }
+		foreach ($this->container->findByTag('restaurant') as $name => $value) {
+			$restaurants[] = $this->container->getService($name);
+		}
 
-        return $restaurants;
-    }
+		return $restaurants;
+	}
 }

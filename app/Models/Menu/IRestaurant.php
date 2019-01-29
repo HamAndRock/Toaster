@@ -13,7 +13,7 @@ namespace App\Models\Menu;
 
 interface IRestaurant
 {
-    /**
+	/**
 	 * Get restaurant name
 	 * @return string
 	 */
@@ -25,23 +25,23 @@ interface IRestaurant
 	 */
 	function getLink(): string;
 
-    /**
-     * Get restaurant slug
-     * @return string
-     */
+	/**
+	 * Get restaurant slug
+	 * @return string
+	 */
 	function getSlug(): string;
 
-    /**
-     * Get soups
-     * @param int $dayNumber
-     * @return Item[]
-     */
+	/**
+	 * Get soups
+	 * @param int $dayNumber
+	 * @return Item[]
+	 */
 	function getSoups(int $dayNumber): array;
 
-    /**
-     * Get meals
-     * @param int $dayNumber
-     * @return Item[]
-     */
+	/**
+	 * Get meals
+	 * @param int $dayNumber
+	 * @return Item[]
+	 */
 	function getMeals(int $dayNumber): array;
 }

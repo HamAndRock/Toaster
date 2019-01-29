@@ -17,12 +17,12 @@ abstract class Restaurant implements IRestaurant
 	protected $menu;
 
 
-    /**
-     * Get soups
-     * @param int $dayNumber
-     * @return Item[]
-     */
-    public function getSoups(int $dayNumber): array
+	/**
+	 * Get soups
+	 * @param int $dayNumber
+	 * @return Item[]
+	 */
+	public function getSoups(int $dayNumber): array
 	{
 		if ($this->menu === null) {
 			$this->convert();
@@ -32,12 +32,12 @@ abstract class Restaurant implements IRestaurant
 	}
 
 
-    /**
-     * Get meals
-     * @param int $dayNumber
-     * @return Item[]
-     */
-    public function getMeals(int $dayNumber): array
+	/**
+	 * Get meals
+	 * @param int $dayNumber
+	 * @return Item[]
+	 */
+	public function getMeals(int $dayNumber): array
 	{
 		if ($this->menu === null) {
 			$this->convert();

@@ -12,7 +12,6 @@ namespace App\Models\Menu\Restaurants;
 
 use App\Models\Menu\Item;
 use App\Models\Menu\Restaurant;
-use Nette\Caching\Cache;
 use Symfony\Component\DomCrawler\Crawler;
 
 
@@ -31,13 +30,13 @@ class Zamecka extends Restaurant
 		return 'Zámecká restaurace';
 	}
 
-    /**
-     * @return string
-     */
-    public function getSlug(): string
-    {
-        return 'zamecka-restaurace';
-    }
+	/**
+	 * @return string
+	 */
+	public function getSlug(): string
+	{
+		return 'zamecka-restaurace';
+	}
 
 
 	/**
@@ -55,39 +54,39 @@ class Zamecka extends Restaurant
 	 */
 	public function convert(): void
 	{
-	    $html = file_get_contents(self::API_LINK);
-        $crawler = new Crawler($html);
+		$html = file_get_contents(self::API_LINK);
+		$crawler = new Crawler($html);
 
 		$menu = [];
 
-        // Find by day
-        $crawler->filter('.menu-day')->each(
-            function (Crawler $day, int $i) use (&$menu): void {
+		// Find by day
+		$crawler->filter('.menu-day')->each(
+			function (Crawler $day, int $i) use (&$menu): void {
 
-                $day->filter('.menu-list__item')->each(
-                    function (Crawler $item, int $r) use (&$menu, $i): void {
+				$day->filter('.menu-list__item')->each(
+					function (Crawler $item, int $r) use (&$menu, $i): void {
 
-                        // Name of day
-                        if ($r === 0) return;
+						// Name of day
+						if ($r === 0) return;
 
-                        // Find soup
-                        if ($r === 1) {
-	                        $menu[$i]['soups'][] = new Item(
-                                $item->filter('h4')->text()
-                            );
+						// Find soup
+						if ($r === 1) {
+							$menu[$i]['soups'][] = new Item(
+								$item->filter('h4')->text()
+							);
 
-                            return;
-                        }
+							return;
+						}
 
-	                    $menu[$i]['meals'][] = new Item(
-                            (string) $item->filter('h4 span')->text(),
-                            (int) $item->filter('.menu-list__item-price')->text()
-                        );
-                    }
-                );
-            }
-        );
+						$menu[$i]['meals'][] = new Item(
+							(string)$item->filter('h4 span')->text(),
+							(int)$item->filter('.menu-list__item-price')->text()
+						);
+					}
+				);
+			}
+		);
 
-        $this->menu = $menu;
+		$this->menu = $menu;
 	}
 }
