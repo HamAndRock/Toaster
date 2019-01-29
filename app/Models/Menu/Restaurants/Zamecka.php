@@ -63,7 +63,6 @@ class Zamecka extends Restaurant
 		// Find by day
 		$crawler->filter('.menu-day')->each(
 			function (Crawler $day, int $i) use (&$menu): void {
-
 				$day->filter('.menu-list__item')->each(
 					function (Crawler $item, int $r) use (&$menu, $i): void {
 

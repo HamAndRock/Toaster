@@ -69,7 +69,6 @@ class Jidelna extends Restaurant
 		// Find meals
 		$contnt->filter('table')->each(
 			function (Crawler $item, int $i) use (&$menu): void {
-
 				$item->filter('tr')->each(
 					function (Crawler $item, int $r) use (&$menu, &$i): void {
 						if ($r == 0) {
