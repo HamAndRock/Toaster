@@ -32,6 +32,6 @@ class HomePresenter extends OverviewPresenter
 		$days = ['pondeli', 'utery', 'streda', 'ctvrtek', 'patek'];
 
 		$this->template->restaurants = $this->restaurantsFactory->getRestaurants();
-		$this->template->day = in_array($slugName, $days) ? array_search($slugName, $days) : 0;
+		$this->template->day = in_array($slugName, $days, true) ? array_search($slugName, $days, true) : 0;
 	}
 }

@@ -17,11 +17,7 @@ application:
 		*: [App, Modules\*, Presenters\*\*Presenter]
 
 tracy:
-	fromEmail: mailer@sitole.cz
-	email: sveceny@sitole.cz
 	strictMode: true
-	maxLength: 1500
-	maxDepth: 5
 
 # Mail configuration
 mail:

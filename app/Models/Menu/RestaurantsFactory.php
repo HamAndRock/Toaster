@@ -15,9 +15,7 @@ use Nette\DI\Container;
 
 class RestaurantsFactory
 {
-	/**
-	 * @var Container
-	 */
+	/** @var Container */
 	private $container;
 
 

@@ -47,5 +47,5 @@ abstract class Restaurant implements IRestaurant
 	}
 
 
-	abstract function convert(): void;
+	abstract public function convert(): void;
 }

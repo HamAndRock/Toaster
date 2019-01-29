@@ -20,45 +20,45 @@ use Nette;
  */
 abstract class BasePresenter extends Nette\Application\UI\Presenter
 {
-    /**
-     * Return presenter dirname
-     * @return string
-     */
-    private function getPresenterDirname(): string
-    {
-        $fileName = self::getReflection()->getFileName();
+	/**
+	 * Return presenter dirname
+	 * @return string
+	 */
+	private function getPresenterDirname(): string
+	{
+		$fileName = self::getReflection()->getFileName();
 
-        if ($fileName === false) {
-            throw new LogicException('Presenter filename must be validate.');
-        }
+		if ($fileName === false) {
+			throw new LogicException('Presenter filename must be validate.');
+		}
 
-        return dirname($fileName);
-    }
-
-
-    /**
-     * Presenter template file name generator
-     * @return string[]
-     */
-    public function formatTemplateFiles(): array
-    {
-        return [
-            $this->getPresenterDirname() . '/templates/' . $this->view . '.latte',
-        ];
-    }
+		return dirname($fileName);
+	}
 
 
-    /**
-     * Presenter layout template file
-     * @return string[]
-     */
-    public function formatLayoutTemplateFiles(): array
-    {
-        // A little hack to get a module folder
-        $modulDirname = dirname(dirname($this->getPresenterDirname()));
+	/**
+	 * Presenter template file name generator
+	 * @return string[]
+	 */
+	public function formatTemplateFiles(): array
+	{
+		return [
+			$this->getPresenterDirname() . '/templates/' . $this->view . '.latte',
+		];
+	}
 
-        return [
-            $modulDirname . '/@layout.latte',
-        ];
-    }
+
+	/**
+	 * Presenter layout template file
+	 * @return string[]
+	 */
+	public function formatLayoutTemplateFiles(): array
+	{
+		// A little hack to get a module folder
+		$modulDirname = dirname(dirname($this->getPresenterDirname()));
+
+		return [
+			$modulDirname . '/@layout.latte',
+		];
+	}
 }

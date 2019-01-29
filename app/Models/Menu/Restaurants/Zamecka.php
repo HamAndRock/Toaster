@@ -25,10 +25,11 @@ class Zamecka extends Restaurant
 	 * Get restaurant name
 	 * @return string
 	 */
-	function getName(): string
+	public function getName(): string
 	{
 		return 'Zámecká restaurace';
 	}
+
 
 	/**
 	 * @return string
@@ -43,7 +44,7 @@ class Zamecka extends Restaurant
 	 * Get link to restaurant
 	 * @return string
 	 */
-	function getLink(): string
+	public function getLink(): string
 	{
 		return self::API_LINK;
 	}
@@ -67,7 +68,9 @@ class Zamecka extends Restaurant
 					function (Crawler $item, int $r) use (&$menu, $i): void {
 
 						// Name of day
-						if ($r === 0) return;
+						if ($r === 0) {
+							return;
+						}
 
 						// Find soup
 						if ($r === 1) {
@@ -79,8 +82,8 @@ class Zamecka extends Restaurant
 						}
 
 						$menu[$i]['meals'][] = new Item(
-							(string)$item->filter('h4 span')->text(),
-							(int)$item->filter('.menu-list__item-price')->text()
+							$item->filter('h4 span')->text(),
+							(int) $item->filter('.menu-list__item-price')->text()
 						);
 					}
 				);

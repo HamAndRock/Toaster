@@ -29,7 +29,7 @@ class Mexico extends Restaurant
 	 * Get restaurant name
 	 * @return string
 	 */
-	function getName(): string
+	public function getName(): string
 	{
 		return 'Mexická restaurace';
 	}
@@ -48,7 +48,7 @@ class Mexico extends Restaurant
 	 * Get link to restaurant
 	 * @return string
 	 */
-	function getLink(): string
+	public function getLink(): string
 	{
 		return 'http://www.mexico-jicin.cz/poledni-menu-mexico.aspx';
 	}
@@ -91,7 +91,7 @@ class Mexico extends Restaurant
 							$this->deleteAlergens(
 								$soup->filter('.food')->text()
 							),
-							(int)Strings::before($soup->filter('.prize')->text(), ' Kč'
+							(int) Strings::before($soup->filter('.prize')->text(), ' Kč'
 							)
 						);
 					}
@@ -111,6 +111,6 @@ class Mexico extends Restaurant
 	private function deleteAlergens(string $meal): string
 	{
 		preg_match('/^\D*(?=\d)/', $meal, $m);
-		return isset($m[0]) ? $m[0] : $meal;
+		return $m[0] ?? $meal;
 	}
 }

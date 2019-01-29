@@ -29,7 +29,7 @@ class Jidelna extends Restaurant
 	 * Get restaurant name
 	 * @return string
 	 */
-	function getName(): string
+	public function getName(): string
 	{
 		return 'Školní jídelna VOŠ a SPŠ Jičín';
 	}
@@ -39,7 +39,7 @@ class Jidelna extends Restaurant
 	 * Get link to restaurant
 	 * @return string
 	 */
-	function getLink(): string
+	public function getLink(): string
 	{
 		return self::API_LINK;
 	}
@@ -49,7 +49,7 @@ class Jidelna extends Restaurant
 	 * Get restaurant slug
 	 * @return string
 	 */
-	function getSlug(): string
+	public function getSlug(): string
 	{
 		return 'skolni-jidelna';
 	}
@@ -58,7 +58,7 @@ class Jidelna extends Restaurant
 	/**
 	 * Convert raw data
 	 */
-	function convert(): void
+	public function convert(): void
 	{
 		$html = file_get_contents(self::API_LINK);
 		$crawler = new Crawler($html);
@@ -72,7 +72,9 @@ class Jidelna extends Restaurant
 
 				$item->filter('tr')->each(
 					function (Crawler $item, int $r) use (&$menu, &$i): void {
-						if ($r == 0) return;
+						if ($r == 0) {
+							return;
+						}
 
 						// Soup
 						if ($r == 1) {

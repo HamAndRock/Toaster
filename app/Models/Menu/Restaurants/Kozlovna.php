@@ -29,7 +29,7 @@ class Kozlovna extends Restaurant
 	 * Get restaurant name
 	 * @return string
 	 */
-	function getName(): string
+	public function getName(): string
 	{
 		return 'Kozlovna U Anděla';
 	}
@@ -48,7 +48,7 @@ class Kozlovna extends Restaurant
 	 * Get link to restaurant
 	 * @return string
 	 */
-	function getLink(): string
+	public function getLink(): string
 	{
 		return self::API_LINK;
 	}
@@ -68,7 +68,7 @@ class Kozlovna extends Restaurant
 		// Find meals
 		$contnt->filter('ol')->each(
 			function (Crawler $item, int $i) use (&$menu): void {
-				$namesOfMeals = $item->filter("li");
+				$namesOfMeals = $item->filter('li');
 				$namesOfMeals->each(
 					function (Crawler $item) use (&$menu, $i): void {
 						$menu[$i]['meals'][] = $ok = new Item(
@@ -94,7 +94,7 @@ class Kozlovna extends Restaurant
 
 				if ($i % 2 === 0) {
 					$menu[$dayNumber]['soups'][] = new Item(
-						Strings::before($item->text(), ' (', 1)
+						(string) Strings::before($item->text(), ' (', 1)
 					);
 				} else {
 					return; // Name of the day
@@ -116,6 +116,6 @@ class Kozlovna extends Restaurant
 	private function deleteAlergens(string $meal): string
 	{
 		preg_match('/^\D*(?=\d)/', $meal, $m);
-		return isset($m[0]) ? $m[0] : $meal;
+		return $m[0] ?? $meal;
 	}
 }
