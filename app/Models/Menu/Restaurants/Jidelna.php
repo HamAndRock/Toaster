@@ -19,7 +19,7 @@ use Symfony\Component\DomCrawler\Crawler;
 class Jidelna extends Restaurant
 {
 	/** @var string */
-	public const API_LINK = 'http://intranet/?main=jidelna_jidel';
+	public const API_LINK = 'https://www.vos-sps-jicin.cz/?main=jidelna_jidel';
 
 	/** @var int */
 	public const PRICE = 33;
