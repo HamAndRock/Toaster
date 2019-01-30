@@ -1,3 +1,13 @@
 services:
 	# Router
 	routing.router: App\Factories\RouterFactory::create
+
+	# Restaurands
+	- App\Models\Menu\Restaurants\Jidelna
+	- App\Models\Menu\Restaurants\Kozlovna
+	- App\Models\Menu\Restaurants\Zamecka
+	- App\Models\Menu\Restaurants\Mexico
+
+decorator:
+	App\Models\Menu\IRestaurant:
+		tags: [restaurant]

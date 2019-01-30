@@ -16,6 +16,15 @@ use App\Modules\Overview\OverviewPresenter;
 
 class HomePresenter extends OverviewPresenter
 {
+	/** @var array */
+	public const DAYS = [
+		'pondeli' => 'pondělí',
+		'utery' => 'úterý',
+		'streda' => 'středa',
+		'ctvrtek' => 'čtvrtek',
+		'patek' => 'pátek',
+	];
+
 	/**
 	 * @var RestaurantsFactory
 	 * @inject
@@ -29,14 +38,7 @@ class HomePresenter extends OverviewPresenter
 	 */
 	public function renderDefault(string $slugName = null): void
 	{
-		$days = [
-			'pondeli' => 'pondělí',
-			'utery' => 'úterý',
-			'streda' => 'středa',
-			'ctvrtek' => 'čtvrtek',
-			'patek' => 'pátek',
-		];
-		$slugs = array_keys($days);
+		$slugs = array_keys(self::DAYS);
 
 		// Redirect to actual day with filled slug
 		if ($slugName === null) {
@@ -47,6 +49,6 @@ class HomePresenter extends OverviewPresenter
 
 		$this->template->restaurants = $this->restaurantsFactory->getRestaurants();
 		$this->template->now = in_array($slugName, $slugs, true) ? array_search($slugName, $slugs, true) : 0;
-		$this->template->days = $days;
+		$this->template->days = self::DAYS;
 	}
 }

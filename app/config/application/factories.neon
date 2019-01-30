@@ -1,12 +1,2 @@
 services:
 	- App\Models\Menu\RestaurantsFactory
-
-	# Restaurands
-	- App\Models\Menu\Restaurants\Kozlovna
-	- App\Models\Menu\Restaurants\Zamecka
-	- App\Models\Menu\Restaurants\Mexico
-	- App\Models\Menu\Restaurants\Jidelna
-
-decorator:
-	App\Models\Menu\IRestaurant:
-		tags: [restaurant]
