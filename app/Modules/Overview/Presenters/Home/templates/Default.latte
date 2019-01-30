@@ -16,20 +16,20 @@
 		{cache 'overview' . $now, expire => '+24 hours'}
 			{foreach $restaurants as $restaurant}
 				<div class="card mt-4">
-					<div class="card-header">{$restaurant->getname()}</div>
+					<div class="card-header">{$restaurant->getName()}</div>
 					<div class="card-body">
 						Polévky:
 						{foreach $restaurant->getsoups($now) as $soup}
 							{$soup->name}{sep}, {/sep}
 						{/foreach}
 
-						<ul n:inner-foreach="$restaurant->getmeals($now) as $meal">
+						<ul n:inner-foreach="$restaurant->getMeals($now) as $meal">
 							<li class="mt-4 mt-md-1">
 								{$meal->name}
 								<b>({$meal->price} kč)</b>
 							</li>
 						</ul>
-						<a href="{$restaurant->getlink()}" class="d-none d-md-inline btn btn-primary">
+						<a href="{$restaurant->getLink()}" class="d-none d-md-inline btn btn-primary">
 							Přejít na web restaurace
 						</a>
 					</div>
