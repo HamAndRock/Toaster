@@ -58,7 +58,7 @@ class Jidelna extends Restaurant
 	/**
 	 * Convert raw data
 	 */
-	public function convert(): void
+	public function build(): array
 	{
 		$html = file_get_contents(self::API_LINK);
 		$crawler = new Crawler($html);
@@ -104,6 +104,6 @@ class Jidelna extends Restaurant
 			}
 		);
 
-		$this->menu = $menu;
+		return $this->menu = $menu;
 	}
 }

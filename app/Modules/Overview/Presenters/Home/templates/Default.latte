@@ -13,28 +13,25 @@
 			</a>
 		</div>
 
-		{cache 'overview' . $now, expire => '+24 hours'}
-			{foreach $restaurants as $restaurant}
-				<div class="card mt-4">
-					<div class="card-header">{$restaurant->getName()}</div>
-					<div class="card-body">
-						Polévky:
-						{foreach $restaurant->getsoups($now) as $soup}
-							{$soup->name}{sep}, {/sep}
-						{/foreach}
+		{foreach $restaurants as $restaurant}
+			<div class="card mt-4">
+				<div class="card-header">{$restaurant->name}</div>
+				<div class="card-body">
+					Polévky:
+					{foreach $restaurant->getsoups($now) as $soup}
+						{$soup->name}{sep}, {/sep}
+					{/foreach}
 
-						<ul n:inner-foreach="$restaurant->getMeals($now) as $meal">
-							<li class="mt-4 mt-md-1">
-								{$meal->name}
-								<b>({$meal->price} kč)</b>
-							</li>
-						</ul>
-						<a href="{$restaurant->getLink()}" class="d-none d-md-inline btn btn-primary">
-							Přejít na web restaurace
-						</a>
-					</div>
+					<ul n:inner-foreach="$restaurant->getMeals($now) as $meal">
+						<li class="mt-4 mt-md-1">
+							{$meal->name} <b>({$meal->price} kč)</b>
+						</li>
+					</ul>
+					<a href="{$restaurant->link}" class="d-none d-md-inline btn btn-primary">
+						Přejít na web restaurace
+					</a>
 				</div>
-			{/foreach}
-		{/cache}
+			</div>
+		{/foreach}
 	</div>
 {/block}

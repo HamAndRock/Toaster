@@ -10,7 +10,9 @@ declare(strict_types=1);
 
 namespace App\Models\Menu;
 
+use App\Models\Cache\CacheHandler;
 use Nette\DI\Container;
+use Tracy\ILogger;
 
 
 class RestaurantsFactory
@@ -18,14 +20,19 @@ class RestaurantsFactory
 	/** @var Container */
 	private $container;
 
+	/** @var ILogger */
+	private $logger;
+
 
 	/**
 	 * RestaurantsFactory constructor.
 	 * @param Container $container
+	 * @param ILogger $logger
 	 */
-	public function __construct(Container $container)
+	public function __construct(Container $container, ILogger $logger)
 	{
 		$this->container = $container;
+		$this->logger = $logger;
 	}
 
 
@@ -38,7 +45,19 @@ class RestaurantsFactory
 		$restaurants = [];
 
 		foreach ($this->container->findByTag('restaurant') as $name => $value) {
-			$restaurants[] = $this->container->getService($name);
+			/** @var Restaurant $restaurant */
+			$restaurant = $this->container->getService($name);
+
+			try {
+				$restaurant->cache();
+			} catch (BadRestaurantResponseException $exception) {
+				$this->logger->log(
+					sprintf('Restaurant "%s" did not return a valid response.', $restaurant->name)
+				);
+				continue;
+			}
+
+			$restaurants[] = $restaurant;
 		}
 
 		return $restaurants;

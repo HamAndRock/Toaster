@@ -57,7 +57,7 @@ class Kozlovna extends Restaurant
 	/**
 	 * Convert data from raw source
 	 */
-	public function convert(): void
+	public function build(): array
 	{
 		$html = file_get_contents(self::API_LINK);
 		$crawler = new Crawler($html);
@@ -104,7 +104,7 @@ class Kozlovna extends Restaurant
 			}
 		);
 
-		$this->menu = $menu;
+		return $this->menu = $menu;
 	}
 
 

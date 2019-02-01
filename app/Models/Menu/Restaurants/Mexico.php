@@ -57,7 +57,7 @@ class Mexico extends Restaurant
 	/**
 	 * Convert data from raw source
 	 */
-	public function convert(): void
+	public function build(): array
 	{
 		$html = file_get_contents(self::API_LINK);
 		$crawler = new Crawler($html);
@@ -91,15 +91,14 @@ class Mexico extends Restaurant
 							$this->deleteAlergens(
 								$soup->filter('.food')->text()
 							),
-							(int) Strings::before($soup->filter('.prize')->text(), ' Kč'
-							)
+							(int) Strings::before($soup->filter('.prize')->text(), ' Kč')
 						);
 					}
 				);
 			}
 		);
 
-		$this->menu = $menu;
+		return $this->menu = $menu;
 	}
 
 

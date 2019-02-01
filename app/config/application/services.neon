@@ -2,8 +2,11 @@ services:
 	# Router
 	routing.router: App\Factories\RouterFactory::create
 
+	# Cache
+	- App\Models\Cache\CacheHandler
+
 	# Restaurands
-	- App\Models\Menu\Restaurants\Jidelna
+	# App\Models\Menu\Restaurants\Jidelna
 	- App\Models\Menu\Restaurants\Kozlovna
 	- App\Models\Menu\Restaurants\Zamecka
 	- App\Models\Menu\Restaurants\Mexico
