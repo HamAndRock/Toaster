@@ -10,7 +10,6 @@ declare(strict_types=1);
 
 namespace App\Models\Menu;
 
-use App\Models\Cache\CacheHandler;
 use Nette\DI\Container;
 use Tracy\ILogger;
 
