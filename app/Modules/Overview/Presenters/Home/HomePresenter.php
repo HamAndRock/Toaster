@@ -40,8 +40,8 @@ class HomePresenter extends OverviewPresenter
 	{
 		$slugs = array_keys(self::DAYS);
 
-		// Redirect to actual day with filled slug
-		if ($slugName === null) {
+		// Redirect to actual day if slug is incorrect
+		if (!in_array($slugName, $slugs, true) || $slugName === null ) {
 			$actual = (int) date('N'); // Actual week day
 			$temp = $actual > 5 ? 1 : $actual; // Ignore weekends
 			$this->redirect('this', $slugs[$temp - 1]);
