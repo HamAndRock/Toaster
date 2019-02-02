@@ -41,9 +41,9 @@ class HomePresenter extends OverviewPresenter
 		$slugs = array_keys(self::DAYS);
 
 		// Redirect to actual day if slug is incorrect
-		if (!in_array($slugName, $slugs, true) || $slugName === null) {
+		if ($slugName === null || !in_array($slugName, $slugs)) {
 			$actual = (int) date('N'); // Actual week day
-			$this->redirect('this', $slugs[$actual > 5 ? 0 : $actual - 1]);
+			$this->redirect('this', $slugs[$actual > 5 ? 4 : $actual - 1]);
 		}
 
 		$this->template->restaurants = $this->restaurantsFactory->getRestaurants();
