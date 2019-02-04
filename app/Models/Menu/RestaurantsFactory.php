@@ -10,6 +10,7 @@ declare(strict_types=1);
 
 namespace App\Models\Menu;
 
+use Exception;
 use Nette\DI\Container;
 use Tracy\ILogger;
 
@@ -53,6 +54,9 @@ class RestaurantsFactory
 				$this->logger->log(
 					sprintf('Restaurant "%s" did not return a valid response.', $restaurant->name)
 				);
+				continue;
+			} catch (Exception $exception) {
+				$this->logger->log($exception, ILogger::EXCEPTION);
 				continue;
 			}
 
