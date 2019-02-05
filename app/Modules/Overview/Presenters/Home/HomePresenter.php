@@ -10,6 +10,7 @@ declare(strict_types=1);
 
 namespace App\Modules\Overview\Presenters\Home;
 
+use App\Models\Menu\Restaurant;
 use App\Models\Menu\RestaurantsFactory;
 use App\Modules\Overview\OverviewPresenter;
 
@@ -26,10 +27,21 @@ class HomePresenter extends OverviewPresenter
 	];
 
 	/**
-	 * @var RestaurantsFactory
+	 * @var Restaurant[]
 	 * @inject
 	 */
-	public $restaurantsFactory;
+	private $restaurants;
+
+
+	/**
+	 * HomePresenter constructor.
+	 * @param RestaurantsFactory $restaurantsFactory
+	 */
+	public function __construct(RestaurantsFactory $restaurantsFactory)
+	{
+		parent::__construct();
+		$this->restaurants = $restaurantsFactory->getRestaurants();
+	}
 
 
 	/**
@@ -46,8 +58,8 @@ class HomePresenter extends OverviewPresenter
 			$this->redirect('this', $slugs[$actual > 5 ? 4 : $actual - 1]);
 		}
 
-		$this->template->restaurants = $this->restaurantsFactory->getRestaurants();
 		$this->template->now = array_search($slugName, $slugs, true);
+		$this->template->restaurants = $this->restaurants;
 		$this->template->days = self::DAYS;
 	}
 }

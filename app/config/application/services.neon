@@ -11,6 +11,7 @@ services:
 	- App\Models\Menu\Restaurants\Zamecka
 	- App\Models\Menu\Restaurants\Mexico
 	- App\Models\Menu\Restaurants\Lucie
+	- App\Models\Menu\Restaurants\DelovaKoule
 
 decorator:
 	App\Models\Menu\IRestaurant:

@@ -60,7 +60,7 @@ class RestaurantsFactory
 				continue;
 			}
 
-			$restaurants[] = $restaurant;
+			$restaurants[$restaurant->slug] = $restaurant;
 		}
 
 		return $restaurants;
