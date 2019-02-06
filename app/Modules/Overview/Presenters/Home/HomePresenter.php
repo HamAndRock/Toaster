@@ -10,7 +10,7 @@ declare(strict_types=1);
 
 namespace App\Modules\Overview\Presenters\Home;
 
-use App\Models\Menu\Restaurant;
+use App\Models\Menu\IRestaurant;
 use App\Models\Menu\RestaurantsFactory;
 use App\Modules\Overview\OverviewPresenter;
 
@@ -27,8 +27,7 @@ class HomePresenter extends OverviewPresenter
 	];
 
 	/**
-	 * @var Restaurant[]
-	 * @inject
+	 * @var IRestaurant[]
 	 */
 	private $restaurants;
 

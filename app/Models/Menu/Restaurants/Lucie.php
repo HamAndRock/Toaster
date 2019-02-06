@@ -68,7 +68,6 @@ class Lucie extends Restaurant
 				// Find foods
 				$day->filter('li')->each(
 					function (Crawler $meal, int $r) use (&$menu, &$i): void {
-
 						if ($r === 0) {
 							$menu[$i]['soups'][] = new Item(
 								$meal->filter('.el-content > p')->text(),
