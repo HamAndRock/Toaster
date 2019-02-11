@@ -1,0 +1,15 @@
+{
+  "short_name": "Toaster",
+  "name": "Menu Jičínských restaurací",
+  "display": "standalone",
+  "icons": [
+    {
+      "src": "favicon.ico",
+      "sizes": "32x32 16x16",
+      "type": "image/vnd.microsoft.icon"
+    }
+  ],
+  "start_url": ".",
+  "theme_color": "#007bff",
+  "background_color": "#383838"
+}
