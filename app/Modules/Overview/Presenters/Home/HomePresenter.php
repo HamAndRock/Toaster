@@ -26,9 +26,7 @@ class HomePresenter extends OverviewPresenter
 		'patek' => 'pátek',
 	];
 
-	/**
-	 * @var IRestaurant[]
-	 */
+	/** @var IRestaurant[] */
 	private $restaurants;
 
 

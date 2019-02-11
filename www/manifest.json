@@ -1,20 +1,35 @@
 {
-  "short_name": "Toaster",
-  "name": "Menu Jičínských restaurací",
-  "display": "standalone",
-  "icons": [
-    {
-      "src": "favicon.ico",
-      "sizes": "32x32 16x16",
-      "type": "image/vnd.microsoft.icon"
-    },
-    {
-      "src": "mobile.png",
-      "sizes": "228x228",
-      "type": "image/png"
-    }
-  ],
-  "start_url": ".",
-  "theme_color": "#007bff",
-  "background_color": "#383838"
+	"short_name": "Toaster",
+	"name": "Toaster",
+	"display": "standalone",
+	"icons": [
+		{
+			"src": "images/icon-16x16.png",
+			"sizes": "16x16",
+			"type": "image/png"
+		},
+		{
+			"src": "images/icon-32x32.png",
+			"sizes": "32x32",
+			"type": "image/png"
+		},
+		{
+			"src": "images/icon-144x144.png",
+			"sizes": "144x144",
+			"type": "image/png"
+		},
+		{
+			"src": "images/icon-228x228.png",
+			"sizes": "228x228",
+			"type": "image/png"
+		},
+		{
+			"src": "images/icon-16x16.png",
+			"sizes": "any",
+			"type": "image/png"
+		}
+	],
+	"start_url": ".",
+	"theme_color": "#007bff",
+	"background_color": "#383838"
 }
