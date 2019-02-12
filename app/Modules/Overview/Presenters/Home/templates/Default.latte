@@ -23,7 +23,7 @@
 						{$soup->name}{sep}, {/sep}
 					{/foreach}
 
-					<ul n:inner-foreach="$restaurant->getMeals($now) as $meal">
+					<ul n:inner-foreach="$restaurant->getMeals($now) as $meal" class="pl-4 pl-md-5">
 						<li class="mt-4 mt-md-1">
 							{$meal->name} <b>({$meal->price} kč)</b>
 						</li>
