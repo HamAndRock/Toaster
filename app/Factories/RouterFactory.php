@@ -26,6 +26,7 @@ class RouterFactory
 		$router = new RouteList;
 
 		// Register home presenter
+		$router[] = new Route('feed', 'Overview:Feed:Feed');
 		$router[] = new Route('[<slugName>]', 'Overview:Home:Default');
 
 		return $router;
