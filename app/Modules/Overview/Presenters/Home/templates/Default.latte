@@ -4,7 +4,8 @@
 
 {block content}
 	<div class="container mb-4">
-		<h2>🍺 Copak máme dnes v Jičíně k obědu?</h2>
+		<h2 class="d-none d-sm-block">🍺 Copak za dobroty máme v Jičíně k obědu?</h2>
+		<h2 class="d-block d-sm-none">🍺 Mňamky v Jičíne</h2>
 
 		{* Generate menu *}
 		<div class="btn-group btn-group-toggle mt-3" n:inner-foreach="$days as $webalize => $name">
@@ -22,7 +23,7 @@
 						{$soup->name}{sep}, {/sep}
 					{/foreach}
 
-					<ul n:inner-foreach="$restaurant->getMeals($now) as $meal">
+					<ul n:inner-foreach="$restaurant->getMeals($now) as $meal" class="pl-4 pl-md-5">
 						<li class="mt-4 mt-md-1">
 							{$meal->name} <b>({$meal->price} kč)</b>
 						</li>
