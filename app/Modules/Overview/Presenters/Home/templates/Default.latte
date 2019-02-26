@@ -23,6 +23,11 @@
 						{$soup->name}{sep}, {/sep}
 					{/foreach}
 
+					{* Soups are not filled *}
+					<span n:if="count($restaurant->getsoups($now)) === 0">
+						<i>Polévky nejsou zadány.</i>
+					</span>
+
 					<ul n:inner-foreach="$restaurant->getMeals($now) as $meal" class="pl-4 pl-md-5">
 						<li class="mt-4 mt-md-1">
 							{$meal->name} <b>({$meal->price} kč)</b>

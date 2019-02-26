@@ -12,6 +12,7 @@ namespace App\Models\Menu\Restaurants;
 
 use App\Models\Menu\Item;
 use App\Models\Menu\Restaurant;
+use InvalidArgumentException;
 use Nette\Utils\Strings;
 use Symfony\Component\DomCrawler\Crawler;
 
@@ -64,25 +65,30 @@ class Lucie extends Restaurant
 		// Find by day
 		$crawler->filter('#denni-menu')->filter('ul')->each(
 			function (Crawler $day, int $i) use (&$menu): void {
+				$menu[$i] = [];
 
-				// Find foods
-				$day->filter('li')->each(
-					function (Crawler $meal, int $r) use (&$menu, &$i): void {
-						if ($r === 0) {
-							$menu[$i]['soups'][] = new Item(
-								$meal->filter('.el-content > p')->text(),
-								(int) $meal->filter('.uk-child-width-auto')->filter('.el-meta')->text()
-							);
-						} else {
-							$name = Strings::trim($meal->filter('.el-content')->text());
-							$price = (int) $meal->filter('.uk-child-width-auto')->filter('.el-meta')->text();
+				try {
+					// Find foods
+					$day->filter('li')->each(
+						function (Crawler $meal, int $r) use (&$menu, &$i): void {
+							if ($r === 0) {
+								$menu[$i]['soups'][] = new Item(
+									Strings::trim($meal->filter('.el-content')->text()),
+									(int) $meal->filter('.uk-child-width-auto')->filter('.el-meta')->text()
+								);
+							} else {
+								$name = Strings::trim($meal->filter('.el-content')->text());
+								$price = (int) $meal->filter('.uk-child-width-auto')->filter('.el-meta')->text();
 
-							if ($price > 0) {
-								$menu[$i]['meals'][] = new Item($name, $price);
+								if ($price > 0) {
+									$menu[$i]['meals'][] = new Item($name, $price);
+								}
 							}
 						}
-					}
-				);
+					);
+				} catch (InvalidArgumentException $exception) {
+					return;
+				}
 			}
 		);
 
