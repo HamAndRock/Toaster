@@ -68,11 +68,7 @@ abstract class Restaurant implements IRestaurant
 	 */
 	public function cache(): void
 	{
-		$callback = function (): array {
-			return $this->build();
-		};
-
-		$this->menu = $this->cache->load($this->slug . date('W'), $callback, []);
+		$this->menu = $this->cache->load($this->slug . date('W'), [$this, 'build']);
 	}
 
 
