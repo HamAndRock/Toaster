@@ -82,7 +82,7 @@ final class Rieger extends Restaurant
 						$food = new Food;
 						$food->name = Strings::trim($title['name']);
 						$food->restaurant = $this->slug;
-						$food->date = DateTimeImmutable::createFromMutable($date);;
+						$food->date = DateTimeImmutable::createFromMutable($date);
 
 						// Fist item is soup
 						if ($r === 0) {

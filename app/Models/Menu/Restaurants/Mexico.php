@@ -80,7 +80,7 @@ final class Mexico extends Restaurant
 				$day->filter('.soup')->each(
 					function (Crawler $soup) use ($date, &$repository): void {
 						$food = new Food;
-						$food->date = DateTimeImmutable::createFromMutable($date);;
+						$food->date = DateTimeImmutable::createFromMutable($date);
 						$food->type = Food::TYPE_SOUP;
 						$food->restaurant = $this->slug;
 						$food->name = self::alergens($soup->filter('.food')->text());
@@ -93,7 +93,7 @@ final class Mexico extends Restaurant
 				$day->filter('.main')->each(
 					function (Crawler $soup) use ($date, &$repository): void {
 						$food = new Food;
-						$food->date = DateTimeImmutable::createFromMutable($date);;
+						$food->date = DateTimeImmutable::createFromMutable($date);
 						$food->type = Food::TYPE_MEAL;
 						$food->restaurant = $this->slug;
 						$food->name = self::alergens($soup->filter('.food')->text());

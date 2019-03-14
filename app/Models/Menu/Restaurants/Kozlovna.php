@@ -74,7 +74,7 @@ final class Kozlovna extends Restaurant
 				$meals->each(
 					function (Crawler $item) use (&$repository, $date): void {
 						$food = new Food;
-						$food->date = DateTimeImmutable::createFromMutable($date);;
+						$food->date = DateTimeImmutable::createFromMutable($date);
 						$food->price = self::PRICE;
 						$food->type = Food::TYPE_MEAL;
 						$food->restaurant = $this->slug;
@@ -100,7 +100,7 @@ final class Kozlovna extends Restaurant
 
 				if ($i % 2 === 0) {
 					$food = new Food;
-					$food->date = DateTimeImmutable::createFromMutable($date);;
+					$food->date = DateTimeImmutable::createFromMutable($date);
 					$food->type = Food::TYPE_SOUP;
 					$food->restaurant = $this->slug;
 					$food->name = (string) Strings::before($item->text(), ' (', 1);

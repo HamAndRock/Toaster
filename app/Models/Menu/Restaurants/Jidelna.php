@@ -83,7 +83,7 @@ final class Jidelna extends Restaurant
 							preg_match("/(Pol(é|e)vka)( -|)(?<name>\W.*)/", $soup, $matches);
 
 							$food = new Food;
-							$food->date = DateTimeImmutable::createFromMutable($date);;
+							$food->date = DateTimeImmutable::createFromMutable($date);
 							$food->name = Strings::firstUpper(Strings::trim($matches['name']));
 							$food->restaurant = $this->slug;
 							$food->type = Food::TYPE_SOUP;
@@ -97,7 +97,7 @@ final class Jidelna extends Restaurant
 
 							if ($data->count() > 0) {
 								$food = new Food;
-								$food->date = DateTimeImmutable::createFromMutable($date);;
+								$food->date = DateTimeImmutable::createFromMutable($date);
 								$food->name = $item->filter('.jidelnicek-typ-v')->text();
 								$food->restaurant = $this->slug;
 								$food->type = Food::TYPE_MEAL;

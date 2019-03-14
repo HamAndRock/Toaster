@@ -73,7 +73,7 @@ final class Lucie extends Restaurant
 					$day->filter('li')->each(
 						function (Crawler $meal, int $r) use (&$date, &$repository): void {
 							$food = new Food;
-							$food->date = DateTimeImmutable::createFromMutable($date);;
+							$food->date = DateTimeImmutable::createFromMutable($date);
 							$food->restaurant = $this->slug;
 							$food->name = Strings::trim($meal->filter('.el-content')->text());
 

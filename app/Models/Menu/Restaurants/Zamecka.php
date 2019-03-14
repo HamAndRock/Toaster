@@ -74,7 +74,7 @@ final class Zamecka extends Restaurant
 				$day->filter('.menu-list__item')->each(
 					function (Crawler $item, int $r) use (&$date, &$repository): void {
 						$food = new Food;
-						$food->date = DateTimeImmutable::createFromMutable($date);;
+						$food->date = DateTimeImmutable::createFromMutable($date);
 						$food->restaurant = $this->slug;
 
 						switch ($r) {
