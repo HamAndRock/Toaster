@@ -10,13 +10,14 @@ declare(strict_types=1);
 
 namespace App\Models\Menu\Restaurants;
 
-use App\Models\Menu\Item;
+use App\Models\Database\ORM\Menu\Food;
 use App\Models\Menu\Restaurant;
+use DateTime;
 use Nette\Utils\Strings;
 use Symfony\Component\DomCrawler\Crawler;
 
 
-class Rieger extends Restaurant
+final class Rieger extends Restaurant
 {
 	/** @var string */
 	public const API_LINK = 'https://objednavkarozvozu.cz/restaurace/238-rieger';
@@ -48,27 +49,28 @@ class Rieger extends Restaurant
 	 */
 	public function getSlug(): string
 	{
-		return 'pizzerie-rieger';
+		return 'RIEGER';
 	}
 
 
 	/**
 	 * Convert raw data
 	 */
-	public function build(): array
+	public function build(): void
 	{
 		$html = file_get_contents(self::API_LINK);
+		$repository = $this->menuRepository;
 		$crawler = new Crawler($html);
 
-		$menu = [];
+		$date = new DateTime('monday this week');
 
 		// Find meals
 		$crawler->filter('.menu-widget')->each(
-			function (Crawler $day, int $i) use (&$menu): void {
+			function (Crawler $day) use (&$date, &$repository): void {
 				$day->filter('.food-item')->each(
-					function (Crawler $food, int $r) use (&$menu, &$i): void {
+					function (Crawler $meal, int $r) use (&$repository, $date): void {
 						$title = Strings::match(
-							$food->filter('h6 > a')->text(), '/([)]|[\.])(?<name>\D.*)/'
+							$meal->filter('h6 > a')->text(), '/([)]|[\.])(?<name>\D.*)/'
 						);
 
 						// Invalid food name
@@ -76,22 +78,27 @@ class Rieger extends Restaurant
 							return;
 						}
 
+						$food = new Food;
+						$food->name = Strings::trim($title['name']);
+						$food->restaurant = $this->slug;
+						$food->date = $date;
+
 						// Fist item is soup
 						if ($r === 0) {
-							$menu[$i]['soups'][] = new Item(
-								Strings::trim($title['name'])
-							);
+							$food->type = Food::TYPE_SOUP;
 						} else {
-							$menu[$i]['meals'][] = new Item(
-								Strings::trim($title['name']),
-								(int) $food->filter('.price > span')->text()
-							);
+							$food->type = Food::TYPE_MEAL;
+							$food->price = (int) $meal->filter('.price > span')->text();
 						}
+
+						$repository->persist($food);
 					}
 				);
+
+				$date->modify('+1 day');
 			}
 		);
 
-		return $this->menu = $menu;
+		$repository->flush();
 	}
 }

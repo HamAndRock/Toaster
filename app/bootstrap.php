@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 require __DIR__ . '/../vendor/autoload.php';
 
-// Register debug mode
-$debugMode = $_SERVER['SERVER_NAME'] === 'localhost';
+// Define debug mode
+$debugMode = isset($_SERVER['SERVER_NAME']) && $_SERVER['SERVER_NAME'] === 'localhost';
 
 $configurator = new Nette\Configurator;
 $configurator->setDebugMode($debugMode);

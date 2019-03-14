@@ -10,13 +10,14 @@ declare(strict_types=1);
 
 namespace App\Models\Menu\Restaurants;
 
-use App\Models\Menu\Item;
+use App\Models\Database\ORM\Menu\Food;
 use App\Models\Menu\Restaurant;
+use DateTime;
 use Nette\Utils\Strings;
 use Symfony\Component\DomCrawler\Crawler;
 
 
-class DelovaKoule extends Restaurant
+final class DelovaKoule extends Restaurant
 {
 	/** @var string */
 	public const API_LINK = 'https://menicka.cz/api/iframe/?id=340';
@@ -37,7 +38,7 @@ class DelovaKoule extends Restaurant
 	 */
 	public function getSlug(): string
 	{
-		return 'u-delove-koule';
+		return 'DELOVA-KOULE';
 	}
 
 
@@ -54,16 +55,17 @@ class DelovaKoule extends Restaurant
 	/**
 	 * Convert data from raw source
 	 */
-	public function build(): array
+	public function build(): void
 	{
 		$html = file_get_contents(self::API_LINK);
+		$repository = $this->menuRepository;
 		$crawler = new Crawler($html);
 
-		$menu = [];
+		$date = new DateTime('monday this week');
 
 		// Find by day
 		$crawler->filter('.menu')->each(
-			function (Crawler $day, int $i) use (&$menu): void {
+			function (Crawler $day, int $i) use (&$date, &$repository): void {
 
 				// Weekend
 				if ($i > 4) {
@@ -72,30 +74,36 @@ class DelovaKoule extends Restaurant
 
 				// Find soups
 				$day->filter('.soup')->each(
-					function (Crawler $soup) use (&$menu, $i): void {
-						$menu[$i]['soups'][] = new Item(
-							$this->deleteAlergens(
-								$soup->filter('.food')->text()
-							)
-						);
+					function (Crawler $soup) use ($date, &$repository): void {
+						$food = new Food;
+						$food->date = $date;
+						$food->type = Food::TYPE_SOUP;
+						$food->restaurant = $this->slug;
+						$food->name = self::alergens($soup->filter('.food')->text());
+
+						$repository->persist($food);
 					}
 				);
 
 				// Find meals
 				$day->filter('.main')->each(
-					function (Crawler $soup) use (&$menu, $i): void {
-						$menu[$i]['meals'][] = new Item(
-							$this->deleteAlergens(
-								$soup->filter('.food')->text()
-							),
-							(int) Strings::before($soup->filter('.prize')->text(), ' Kč')
-						);
+					function (Crawler $soup) use ($date, &$repository): void {
+						$food = new Food;
+						$food->date = $date;
+						$food->type = Food::TYPE_MEAL;
+						$food->restaurant = $this->slug;
+						$food->name = self::alergens($soup->filter('.food')->text());
+						$food->price = (int) Strings::before($soup->filter('.prize')->text(), ' Kč');
+
+						$repository->persist($food);
 					}
 				);
+
+				$date->modify('+1 day');
 			}
 		);
 
-		return $this->menu = $menu;
+		$repository->flush();
 	}
 
 
@@ -104,7 +112,7 @@ class DelovaKoule extends Restaurant
 	 * @param string $meal
 	 * @return string
 	 */
-	private function deleteAlergens(string $meal): string
+	private static function alergens(string $meal): string
 	{
 		preg_match('/^\D*(?=\d)/', $meal, $m);
 		return $m[0] ?? $meal;

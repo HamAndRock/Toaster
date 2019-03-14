@@ -10,14 +10,15 @@ declare(strict_types=1);
 
 namespace App\Models\Menu\Restaurants;
 
-use App\Models\Menu\Item;
+use App\Models\Database\ORM\Menu\Food;
 use App\Models\Menu\Restaurant;
+use DateTime;
 use InvalidArgumentException;
 use Nette\Utils\Strings;
 use Symfony\Component\DomCrawler\Crawler;
 
 
-class Lucie extends Restaurant
+final class Lucie extends Restaurant
 {
 	/** @var string */
 	public const API_LINK = 'http://www.penzion-lucie.cz/#denni-menu';
@@ -38,7 +39,7 @@ class Lucie extends Restaurant
 	 */
 	public function getSlug(): string
 	{
-		return 'lucie';
+		return 'LUCIE';
 	}
 
 
@@ -55,43 +56,44 @@ class Lucie extends Restaurant
 	/**
 	 * Convert data from raw source
 	 */
-	public function build(): array
+	public function build(): void
 	{
 		$html = file_get_contents(self::API_LINK);
+		$repository = $this->menuRepository;
 		$crawler = new Crawler($html);
 
-		$menu = [];
+		$date = new DateTime('monday this week');
 
 		// Find by day
 		$crawler->filter('#denni-menu')->filter('ul')->each(
-			function (Crawler $day, int $i) use (&$menu): void {
-				$menu[$i] = [];
-
+			function (Crawler $day, int $i) use (&$date, &$repository): void {
 				try {
 					// Find foods
 					$day->filter('li')->each(
-						function (Crawler $meal, int $r) use (&$menu, &$i): void {
-							if ($r === 0) {
-								$menu[$i]['soups'][] = new Item(
-									Strings::trim($meal->filter('.el-content')->text()),
-									(int) $meal->filter('.uk-child-width-auto')->filter('.el-meta')->text()
-								);
-							} else {
-								$name = Strings::trim($meal->filter('.el-content')->text());
-								$price = (int) $meal->filter('.uk-child-width-auto')->filter('.el-meta')->text();
+						function (Crawler $meal, int $r) use (&$date, &$repository): void {
+							$food = new Food;
+							$food->date = $date;
+							$food->restaurant = $this->slug;
+							$food->name = Strings::trim($meal->filter('.el-content')->text());
 
-								if ($price > 0) {
-									$menu[$i]['meals'][] = new Item($name, $price);
-								}
+							if ($r === 0) {
+								$food->type = Food::TYPE_SOUP;
+							} else {
+								$food->type = Food::TYPE_MEAL;
+								$food->price = (int) $meal->filter('.uk-child-width-auto')->filter('.el-meta')->text();
 							}
+
+							$repository->persist($food);
 						}
 					);
 				} catch (InvalidArgumentException $exception) {
 					return;
 				}
+
+				$date->modify('+1 day');
 			}
 		);
 
-		return $this->menu = $menu;
+		$repository->flush();
 	}
 }

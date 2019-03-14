@@ -2,17 +2,17 @@ services:
 	# Router
 	routing.router: App\Factories\RouterFactory::create
 
-	# Cache
-	- App\Models\Cache\CacheHandler
-
 	# Restaurands
-	- App\Models\Menu\Restaurants\Jidelna
-	- App\Models\Menu\Restaurants\Kozlovna
 	- App\Models\Menu\Restaurants\Zamecka
+	- App\Models\Menu\Restaurants\Kozlovna
 	- App\Models\Menu\Restaurants\Mexico
-	- App\Models\Menu\Restaurants\Lucie
 	- App\Models\Menu\Restaurants\DelovaKoule
-	# - App\Models\Menu\Restaurants\Rieger
+	- App\Models\Menu\Restaurants\Lucie
+	- App\Models\Menu\Restaurants\Rieger
+	- App\Models\Menu\Restaurants\Jidelna
+
+	# Commands
+	- App\Models\Console\BuildCommand
 
 decorator:
 	App\Models\Menu\IRestaurant:

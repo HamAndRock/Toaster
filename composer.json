@@ -20,13 +20,19 @@
 		"nette/mail": "^2.4",
 		"nette/security": "^2.4",
 		"nette/utils": "^2.4",
-		"latte/latte": "^2.4",
-		"tracy/tracy": "^2.4",
+		"latte/latte": "^2.5",
+		"tracy/tracy": "^2.6",
+
 		"symfony/dom-crawler": "^4.2",
-		"symfony/css-selector": "^4.2"
+		"symfony/css-selector": "^4.2",
+
+		"nextras/migrations": "^3.0",
+		"nextras/orm": "^3.1",
+		"contributte/console": "^0.5.0"
 	},
 	"require-dev": {
-		"phpstan/phpstan-nette": "^0.10"
+		"phpstan/phpstan-nette": "^0.11",
+		"nextras/orm-phpstan": "^0.3"
 	},
 	"autoload": {
 		"psr-4": {

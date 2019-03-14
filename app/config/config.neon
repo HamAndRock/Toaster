@@ -30,3 +30,36 @@ mail:
 	password: %mail.password%
 	secure: %mail.secure%
 	port: %mail.port%
+
+# Console configuration
+console:
+	name: Toaster bot
+	url: %domain%
+	autoExit: true
+
+# Database layer
+dbal:
+	driver: 'mysqli'
+	host: %database.host%
+	database: %database.database%
+	connectionTz: %database.zone%
+	username: %database.username%
+	password: %database.password%
+
+orm:
+	model: App\Models\Database\DatabaseModel
+
+migrations:
+	dir: %appDir%/../migrations
+	driver: mysql
+	dbal: nextras
+
+decorator:
+	Nextras\Orm\Repository\IRepository:
+		inject: on
+
+extensions:
+	migrations: Nextras\Migrations\Bridges\NetteDI\MigrationsExtension
+	console: Contributte\Console\DI\ConsoleExtension(%consoleMode%)
+	dbal: Nextras\Dbal\Bridges\NetteDI\DbalExtension
+	orm: Nextras\Orm\Bridges\NetteDI\OrmExtension

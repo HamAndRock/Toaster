@@ -19,16 +19,16 @@
 				<div class="card-header">{$restaurant->name}</div>
 				<div class="card-body">
 					Polévky:
-					{foreach $restaurant->getsoups($now) as $soup}
+					{foreach $soups = $restaurant->getsoups($date) as $soup}
 						{$soup->name}{sep}, {/sep}
 					{/foreach}
 
 					{* Soups are not filled *}
-					<span n:if="count($restaurant->getsoups($now)) === 0">
+					<span n:if="count($soups) === 0">
 						<i>Polévky nejsou zadány.</i>
 					</span>
 
-					<ul n:inner-foreach="$restaurant->getMeals($now) as $meal" class="pl-4 pl-md-5">
+					<ul n:inner-foreach="$restaurant->getMeals($date) as $meal" class="pl-4 pl-md-5">
 						<li class="mt-4 mt-md-1">
 							{$meal->name} <b>({$meal->price} kč)</b>
 						</li>
