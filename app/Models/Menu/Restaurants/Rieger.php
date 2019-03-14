@@ -13,6 +13,7 @@ namespace App\Models\Menu\Restaurants;
 use App\Models\Database\ORM\Menu\Food;
 use App\Models\Menu\Restaurant;
 use DateTime;
+use DateTimeImmutable;
 use Nette\Utils\Strings;
 use Symfony\Component\DomCrawler\Crawler;
 
@@ -81,7 +82,7 @@ final class Rieger extends Restaurant
 						$food = new Food;
 						$food->name = Strings::trim($title['name']);
 						$food->restaurant = $this->slug;
-						$food->date = $date;
+						$food->date = DateTimeImmutable::createFromMutable($date);;
 
 						// Fist item is soup
 						if ($r === 0) {

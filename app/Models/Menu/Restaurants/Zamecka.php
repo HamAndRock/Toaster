@@ -13,6 +13,7 @@ namespace App\Models\Menu\Restaurants;
 use App\Models\Database\ORM\Menu\Food;
 use App\Models\Menu\Restaurant;
 use DateTime;
+use DateTimeImmutable;
 use Symfony\Component\DomCrawler\Crawler;
 
 
@@ -73,7 +74,7 @@ final class Zamecka extends Restaurant
 				$day->filter('.menu-list__item')->each(
 					function (Crawler $item, int $r) use (&$date, &$repository): void {
 						$food = new Food;
-						$food->date = $date;
+						$food->date = DateTimeImmutable::createFromMutable($date);;
 						$food->restaurant = $this->slug;
 
 						switch ($r) {

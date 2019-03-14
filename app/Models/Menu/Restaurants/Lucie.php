@@ -13,6 +13,7 @@ namespace App\Models\Menu\Restaurants;
 use App\Models\Database\ORM\Menu\Food;
 use App\Models\Menu\Restaurant;
 use DateTime;
+use DateTimeImmutable;
 use InvalidArgumentException;
 use Nette\Utils\Strings;
 use Symfony\Component\DomCrawler\Crawler;
@@ -72,7 +73,7 @@ final class Lucie extends Restaurant
 					$day->filter('li')->each(
 						function (Crawler $meal, int $r) use (&$date, &$repository): void {
 							$food = new Food;
-							$food->date = $date;
+							$food->date = DateTimeImmutable::createFromMutable($date);;
 							$food->restaurant = $this->slug;
 							$food->name = Strings::trim($meal->filter('.el-content')->text());
 

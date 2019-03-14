@@ -23,13 +23,11 @@ interface IRestaurant
 	 */
 	function getName(): string;
 
-
 	/**
 	 * Get link to restaurant
 	 * @return string
 	 */
 	function getLink(): string;
-
 
 	/**
 	 * Get restaurant slug
@@ -37,14 +35,12 @@ interface IRestaurant
 	 */
 	function getSlug(): string;
 
-
 	/**
 	 * Get soups
 	 * @param DateTimeImmutable $date
 	 * @return ICollection|Food[]
 	 */
 	function getSoups(DateTimeImmutable $date): ICollection;
-
 
 	/**
 	 * Get meals
