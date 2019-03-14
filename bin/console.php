@@ -9,4 +9,4 @@ if (!$container instanceof Nette\DI\Container) {
 	throw new LogicException('Application container is not defined');
 }
 
-$container->getByType(Nette\Application\Application::class)->run();
+$container->getByType(Contributte\Console\Application::class)->run();

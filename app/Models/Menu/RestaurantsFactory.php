@@ -10,7 +10,6 @@ declare(strict_types=1);
 
 namespace App\Models\Menu;
 
-use Exception;
 use Nette\DI\Container;
 use Tracy\ILogger;
 
@@ -38,29 +37,14 @@ class RestaurantsFactory
 
 	/**
 	 * Get restaurants
-	 * @return IRestaurant[]
+	 * @return Restaurant[]
 	 */
 	public function getRestaurants(): array
 	{
 		$restaurants = [];
 
 		foreach ($this->container->findByTag('restaurant') as $name => $value) {
-			/** @var Restaurant $restaurant */
-			$restaurant = $this->container->getService($name);
-
-			try {
-				$restaurant->cache();
-			} catch (BadRestaurantResponseException $exception) {
-				$this->logger->log(
-					sprintf('Restaurant "%s" did not return a valid response.', $restaurant->name)
-				);
-				continue;
-			} catch (Exception $exception) {
-				$this->logger->log($exception, ILogger::EXCEPTION);
-				continue;
-			}
-
-			$restaurants[$restaurant->slug] = $restaurant;
+			$restaurants[] = $this->container->getService($name);
 		}
 
 		return $restaurants;

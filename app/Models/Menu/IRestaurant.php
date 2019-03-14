@@ -10,6 +10,10 @@ declare(strict_types=1);
 
 namespace App\Models\Menu;
 
+use App\Models\Database\ORM\Menu\Food;
+use DateTimeImmutable;
+use Nextras\Orm\Collection\ICollection;
+
 
 interface IRestaurant
 {
@@ -19,11 +23,13 @@ interface IRestaurant
 	 */
 	function getName(): string;
 
+
 	/**
 	 * Get link to restaurant
 	 * @return string
 	 */
 	function getLink(): string;
+
 
 	/**
 	 * Get restaurant slug
@@ -31,17 +37,19 @@ interface IRestaurant
 	 */
 	function getSlug(): string;
 
+
 	/**
 	 * Get soups
-	 * @param int $dayNumber
-	 * @return Item[]
+	 * @param DateTimeImmutable $date
+	 * @return ICollection|Food[]
 	 */
-	function getSoups(int $dayNumber): array;
+	function getSoups(DateTimeImmutable $date): ICollection;
+
 
 	/**
 	 * Get meals
-	 * @param int $dayNumber
-	 * @return Item[]
+	 * @param DateTimeImmutable $date
+	 * @return ICollection|Food[]
 	 */
-	function getMeals(int $dayNumber): array;
+	function getMeals(DateTimeImmutable $date): ICollection;
 }

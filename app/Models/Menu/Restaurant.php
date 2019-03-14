@@ -11,8 +11,11 @@ declare(strict_types=1);
 namespace App\Models\Menu;
 
 
-use App\Models\Cache\CacheHandler;
+use App\Models\Database\ORM\Menu\Food;
+use App\Models\Database\ORM\Menu\MenuRepository;
+use DateTimeImmutable;
 use Nette\SmartObject;
+use Nextras\Orm\Collection\ICollection;
 
 
 /**
@@ -24,56 +27,44 @@ abstract class Restaurant implements IRestaurant
 {
 	use SmartObject;
 
-	/** @var array|null */
-	protected $menu;
-
-	/** @var CacheHandler */
-	private $cache;
+	/** @var MenuRepository */
+	protected $menuRepository;
 
 
 	/**
 	 * Restaurant constructor
-	 * @param CacheHandler $cache
+	 * @param MenuRepository $menuRepository
 	 */
-	public function __construct(CacheHandler $cache)
+	public function __construct(MenuRepository $menuRepository)
 	{
-		$this->cache = $cache;
+		$this->menuRepository = $menuRepository;
 	}
 
 
 	/**
-	 * Get soups
-	 * @param int $dayNumber
-	 * @return Item[]
+	 * @param DateTimeImmutable $date
+	 * @return ICollection|Food[]
 	 */
-	public function getSoups(int $dayNumber): array
+	public function getSoups(DateTimeImmutable $date): ICollection
 	{
-		return $this->menu[$dayNumber]['soups'] ?? [];
+		return $this->menuRepository
+			->findByRestaurantAndDate($this->slug, $date)->findBy(['type' => Food::TYPE_SOUP]);
 	}
 
 
 	/**
-	 * Get meals
-	 * @param int $dayNumber
-	 * @return Item[]
+	 * @param DateTimeImmutable $date
+	 * @return ICollection|Food[]
 	 */
-	public function getMeals(int $dayNumber): array
+	public function getMeals(DateTimeImmutable $date): ICollection
 	{
-		return $this->menu[$dayNumber]['meals'] ?? [];
+		return $this->menuRepository
+			->findByRestaurantAndDate($this->slug, $date)->findBy(['type' => Food::TYPE_MEAL]);
 	}
 
 
 	/**
-	 * Load from cache or build restaurant menu
+	 * Build and save restaurant menu
 	 */
-	public function cache(): void
-	{
-		$this->menu = $this->cache->load($this->slug . date('W'), [$this, 'build']);
-	}
-
-
-	/**
-	 * @throws BadRestaurantResponseException
-	 */
-	abstract public function build(): array;
+	abstract public function build(): void;
 }

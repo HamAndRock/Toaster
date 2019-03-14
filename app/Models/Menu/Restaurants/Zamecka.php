@@ -10,12 +10,13 @@ declare(strict_types=1);
 
 namespace App\Models\Menu\Restaurants;
 
-use App\Models\Menu\Item;
+use App\Models\Database\ORM\Menu\Food;
 use App\Models\Menu\Restaurant;
+use DateTime;
 use Symfony\Component\DomCrawler\Crawler;
 
 
-class Zamecka extends Restaurant
+final class Zamecka extends Restaurant
 {
 	/** @var string */
 	public const API_LINK = 'http://zameckajicin.cz/frontpage/menu-na-tyden';
@@ -36,7 +37,7 @@ class Zamecka extends Restaurant
 	 */
 	public function getSlug(): string
 	{
-		return 'zamecka-restaurace';
+		return 'ZAMECKA';
 	}
 
 
@@ -53,42 +54,47 @@ class Zamecka extends Restaurant
 	/**
 	 * Convert data from raw source
 	 */
-	public function build(): array
+	public function build(): void
 	{
 		$html = file_get_contents(self::API_LINK);
+		$repository = $this->menuRepository;
 		$crawler = new Crawler($html);
 
-		$menu = [];
+		$date = new DateTime('monday this week');
 
 		// Find by day
 		$crawler->filter('.menu-day')->each(
-			function (Crawler $day, int $i) use (&$menu): void {
+			function (Crawler $day, int $i) use (&$date, &$repository): void {
+				// Ignore first each
+				if ($i > 0) {
+					$date->modify('+1 day');
+				}
+
 				$day->filter('.menu-list__item')->each(
-					function (Crawler $item, int $r) use (&$menu, $i): void {
+					function (Crawler $item, int $r) use (&$date, &$repository): void {
+						$food = new Food;
+						$food->date = $date;
+						$food->restaurant = $this->slug;
 
-						// Name of day
-						if ($r === 0) {
-							return;
+						switch ($r) {
+							case 0:
+								return;
+							case 1:
+								$food->type = Food::TYPE_SOUP;
+								$food->name = $item->filter('h4')->text();
+								break;
+							default:
+								$food->type = Food::TYPE_MEAL;
+								$food->name = $item->filter('h4')->text();
+								$food->price = (int) $item->filter('.menu-list__item-price')->text();
 						}
 
-						// Find soup
-						if ($r === 1) {
-							$menu[$i]['soups'][] = new Item(
-								$item->filter('h4')->text()
-							);
-
-							return;
-						}
-
-						$menu[$i]['meals'][] = new Item(
-							$item->filter('h4 span')->text(),
-							(int) $item->filter('.menu-list__item-price')->text()
-						);
+						$repository->persist($food);
 					}
 				);
 			}
 		);
 
-		return $this->menu = $menu;
+		$repository->flush();
 	}
 }

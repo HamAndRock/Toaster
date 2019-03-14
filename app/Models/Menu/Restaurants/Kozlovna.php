@@ -10,13 +10,14 @@ declare(strict_types=1);
 
 namespace App\Models\Menu\Restaurants;
 
-use App\Models\Menu\Item;
+use App\Models\Database\ORM\Menu\Food;
 use App\Models\Menu\Restaurant;
+use DateTime;
 use Nette\Utils\Strings;
 use Symfony\Component\DomCrawler\Crawler;
 
 
-class Kozlovna extends Restaurant
+final class Kozlovna extends Restaurant
 {
 	/** @var string */
 	public const API_LINK = 'https://kozlovnajicin.cz/denni-menu';
@@ -40,7 +41,7 @@ class Kozlovna extends Restaurant
 	 */
 	public function getSlug(): string
 	{
-		return 'kozlovna-u-andela';
+		return 'KOZLOVNA';
 	}
 
 
@@ -57,54 +58,62 @@ class Kozlovna extends Restaurant
 	/**
 	 * Convert data from raw source
 	 */
-	public function build(): array
+	public function build(): void
 	{
 		$html = file_get_contents(self::API_LINK);
+		$repository = $this->menuRepository;
 		$crawler = new Crawler($html);
 
-		$menu = [];
-		$contnt = $crawler->filter('.denni-menu .single-page-content');
+		$date = new DateTime('monday this week');
 
 		// Find meals
-		$contnt->filter('ol')->each(
-			function (Crawler $item, int $i) use (&$menu): void {
-				$namesOfMeals = $item->filter('li');
-				$namesOfMeals->each(
-					function (Crawler $item) use (&$menu, $i): void {
-						$menu[$i]['meals'][] = $ok = new Item(
-							$this->deleteAlergens(
-								strip_tags($item->text())
-							), self::PRICE
-						);
+		$crawler->filter('.denni-menu .single-page-content')->filter('ol')->each(
+			function (Crawler $item, int $i) use (&$date, &$repository): void {
+				$meals = $item->filter('li');
+				$meals->each(
+					function (Crawler $item) use (&$repository, $date): void {
+						$food = new Food;
+						$food->date = $date;
+						$food->price = self::PRICE;
+						$food->type = Food::TYPE_MEAL;
+						$food->restaurant = $this->slug;
+						$food->name = self::alergens($item->text());
+
+						$repository->persist($food);
 					}
 				);
+
+				$date->modify('+1 day');
 			}
 		);
 
-		$dayNumber = 0;
+		$date = new DateTime('monday this week');
 
 		// Find soups
-		$contnt->filter('p')->each(
-			function (Crawler $item, int $i) use (&$menu, &$dayNumber): void {
-
-				// Drop header and empty paragraphs
+		$crawler->filter('.denni-menu .single-page-content')->filter('p')->each(
+			function (Crawler $item, int $i) use (&$date, &$repository): void {
+				// Skip header and empty paragraphs
 				if ($i === 0 || $i > 10) {
 					return;
 				}
 
 				if ($i % 2 === 0) {
-					$menu[$dayNumber]['soups'][] = new Item(
-						(string) Strings::before($item->text(), ' (', 1)
-					);
-				} else {
-					return; // Name of the day
-				}
+					$food = new Food;
+					$food->date = $date;
+					$food->type = Food::TYPE_SOUP;
+					$food->restaurant = $this->slug;
+					$food->name = (string) Strings::before($item->text(), ' (', 1);
 
-				$dayNumber++;
+					$repository->persist($food);
+
+					$date->modify('+1 day');
+				} else {
+					return; // Name
+				}
 			}
 		);
 
-		return $this->menu = $menu;
+		$repository->flush();
 	}
 
 
@@ -113,7 +122,7 @@ class Kozlovna extends Restaurant
 	 * @param string $meal
 	 * @return string
 	 */
-	private function deleteAlergens(string $meal): string
+	private static function alergens(string $meal): string
 	{
 		preg_match('/^\D*(?=\d)/', $meal, $m);
 		return $m[0] ?? $meal;

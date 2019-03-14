@@ -1,0 +1,64 @@
+<?php
+
+/**
+ * @author Jiří Svěcený <sveceny@sitole.cz>
+ * @copyright 2019 Jiří Svěcený
+ * @version 14.03.2019
+ */
+
+declare(strict_types=1);
+
+namespace App\Models\Console;
+
+use App\Models\Menu\RestaurantsFactory;
+use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
+use Throwable;
+use Tracy\ILogger;
+
+
+class BuildCommand extends Command
+{
+	/** @var string */
+	protected static $defaultName = 'restaurants:build';
+
+	/** @var RestaurantsFactory */
+	private $restaurantsFactory;
+
+	/** @var ILogger */
+	private $logger;
+
+
+	/**
+	 * BuildCommand constructor
+	 * @param RestaurantsFactory $restaurantsFactory
+	 * @param ILogger $logger
+	 * @param string|null $name
+	 */
+	public function __construct(RestaurantsFactory $restaurantsFactory, ILogger $logger, string $name = null)
+	{
+		parent::__construct($name);
+		$this->restaurantsFactory = $restaurantsFactory;
+		$this->logger = $logger;
+	}
+
+
+	/**
+	 * Execute command
+	 * @param InputInterface $input
+	 * @param OutputInterface $output
+	 */
+	protected function execute(InputInterface $input, OutputInterface $output)
+	{
+		$restaurants = $this->restaurantsFactory->getRestaurants();
+
+		foreach ($restaurants as $restaurant) {
+			try {
+				$restaurant->build();
+			} catch (Throwable $exception) {
+				$this->logger->log($exception, ILogger::EXCEPTION);
+			}
+		}
+	}
+}

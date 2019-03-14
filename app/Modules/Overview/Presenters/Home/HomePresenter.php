@@ -13,6 +13,8 @@ namespace App\Modules\Overview\Presenters\Home;
 use App\Models\Menu\IRestaurant;
 use App\Models\Menu\RestaurantsFactory;
 use App\Modules\Overview\OverviewPresenter;
+use DateTime;
+use DateTimeImmutable;
 
 
 class HomePresenter extends OverviewPresenter
@@ -43,20 +45,29 @@ class HomePresenter extends OverviewPresenter
 
 	/**
 	 * Render menu
-	 * @param string|null $slugName
+	 * @param string|null $day
 	 */
-	public function renderDefault(string $slugName = null): void
+	public function renderDefault(string $day = null): void
 	{
 		$slugs = array_keys(self::DAYS);
+		$date = new DateTimeImmutable('monday this week');
 
-		// Redirect to actual day if slug is incorrect
-		if ($slugName === null || !in_array($slugName, $slugs, true)) {
-			$actual = (int) date('N'); // Actual week day
-			$this->redirect('this', $slugs[$actual > 5 ? 4 : $actual - 1]);
+		// Day name is incorrect
+		if ($day === null || !in_array($day, $slugs, true)) {
+			$date = new DateTime;
+
+			// Weekend
+			if ($date->format('N') > 5) {
+				$this->redirect('this', 'patek');
+			} else {
+				$this->redirect('this', $slugs[(int) $date->format('N') - 1]);
+			}
 		}
 
-		$this->template->now = array_search($slugName, $slugs, true);
-		$this->template->restaurants = $this->restaurants;
 		$this->template->days = self::DAYS;
+		$this->template->restaurants = $this->restaurants;
+
+		// Calculate date shift
+		$this->template->date = $date->modify(sprintf('+%s days', (string) array_search($day, $slugs, true)));
 	}
 }

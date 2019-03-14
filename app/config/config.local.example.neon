@@ -6,3 +6,14 @@ parameters:
 		password:
 		secure: tls
 		port: 2525
+
+	# Database connection
+	database:
+		zone: '+1:00'
+		host: 'localhost'
+		username: 'root'
+		password:
+		database:
+
+	# Application domain
+	domain: https://toaster.sitole.cz
