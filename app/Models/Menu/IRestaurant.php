@@ -23,11 +23,13 @@ interface IRestaurant
 	 */
 	function getName(): string;
 
+
 	/**
 	 * Get link to restaurant
 	 * @return string
 	 */
 	function getLink(): string;
+
 
 	/**
 	 * Get restaurant slug

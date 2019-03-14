@@ -60,7 +60,7 @@ class HomePresenter extends OverviewPresenter
 			if ($date->format('N') > 5) {
 				$this->redirect('this', 'patek');
 			} else {
-				$this->redirect('this', $slugs[$date->format('N') - 1]);
+				$this->redirect('this', $slugs[(int) $date->format('N') - 1]);
 			}
 		}
 
