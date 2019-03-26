@@ -1,0 +1,4 @@
+ALTER TABLE `menu`
+	ALTER `name` DROP DEFAULT;
+ALTER TABLE `menu`
+	CHANGE COLUMN `name` `name` VARCHAR(250) NOT NULL AFTER `date`;
