@@ -91,13 +91,13 @@ final class Mexico extends Restaurant
 
 				// Find meals
 				$day->filter('.main')->each(
-					function (Crawler $soup) use ($date, &$repository): void {
+					function (Crawler $main) use ($date, &$repository): void {
 						$food = new Food;
 						$food->date = DateTimeImmutable::createFromMutable($date);
 						$food->type = Food::TYPE_MEAL;
 						$food->restaurant = $this->slug;
-						$food->name = self::alergens($soup->filter('.food')->text());
-						$food->price = (int) Strings::before($soup->filter('.prize')->text(), ' Kč');
+						$food->name = self::alergens($main->filter('.food')->text());
+						$food->price = (int) Strings::before($main->filter('.prize')->text(), ' Kč');
 
 						$repository->persist($food);
 					}

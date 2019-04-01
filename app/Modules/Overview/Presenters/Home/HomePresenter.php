@@ -68,6 +68,8 @@ class HomePresenter extends OverviewPresenter
 		$this->template->restaurants = $this->restaurants;
 
 		// Calculate date shift
-		$this->template->date = $date->modify(sprintf('+%s days', (string) array_search($day, $slugs, true)));
+		$this->template->date = $date->modify(
+			sprintf('+%s days', (string) array_search($day, $slugs, true))
+		);
 	}
 }

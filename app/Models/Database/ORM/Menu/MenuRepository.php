@@ -35,6 +35,11 @@ class MenuRepository extends BaseRepository
 	 */
 	public function findByRestaurantAndDate(string $restaurantSlug, DateTimeImmutable $date): ICollection
 	{
-		return $this->findBy(['restaurant' => $restaurantSlug, 'date' => $date]);
+		return $this->findBy(
+			[
+				'restaurant' => $restaurantSlug,
+				'date' => $date->format('Y-m-d'), // Datetime is not as date format, we need to convert it
+			]
+		);
 	}
 }
