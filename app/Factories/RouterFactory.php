@@ -10,8 +10,6 @@ declare(strict_types=1);
 
 namespace App\Factories;
 
-use Nette\Application\IRouter;
-use Nette\Application\Routers\Route;
 use Nette\Application\Routers\RouteList;
 
 
@@ -19,14 +17,14 @@ class RouterFactory
 {
 	/**
 	 * Return list of routes in application
-	 * @return IRouter
+	 * @return RouteList
 	 */
-	public static function create(): IRouter
+	public static function create(): RouteList
 	{
 		$router = new RouteList;
 
 		// Register home presenter
-		$router[] = new Route('[<day>]', 'Overview:Home:Default');
+		$router->addRoute('[<day>]', 'Overview:Home:Default');
 
 		return $router;
 	}

@@ -12,22 +12,24 @@
 		"ext-openssl": "*",
 		"ext-mbstring": "*",
 
-		"nette/application": "^2.4",
-		"nette/bootstrap": "^2.4",
-		"nette/caching": "^2.4",
-		"nette/di": "^2.4",
-		"nette/http": "^2.4",
-		"nette/mail": "^2.4",
-		"nette/security": "^2.4",
-		"nette/utils": "^2.4",
+		"nette/application": "^3.0",
+		"nette/bootstrap": "^3.0",
+		"nette/caching": "^3.0",
+		"nette/di": "^3.0",
+		"nette/http": "^3.0",
+		"nette/mail": "^3.0",
+		"nette/security": "^3.0",
+		"nette/utils": "^3.0",
+
 		"latte/latte": "^2.5",
 		"tracy/tracy": "^2.6",
 
 		"symfony/dom-crawler": "^4.2",
 		"symfony/css-selector": "^4.2",
 
-		"nextras/migrations": "^3.0",
 		"nextras/orm": "^3.1",
+		"nextras/dbal": "^3.1",
+		"nextras/migrations": "^3.0",
 		"contributte/console": "^0.5.0"
 	},
 	"require-dev": {
