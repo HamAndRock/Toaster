@@ -34,7 +34,6 @@ mail:
 # Console configuration
 console:
 	name: Toaster bot
-	url: %domain%
 	autoExit: true
 
 # Database layer
