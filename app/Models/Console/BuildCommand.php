@@ -10,9 +10,13 @@ declare(strict_types=1);
 
 namespace App\Models\Console;
 
+use App\Models\Menu\Restaurant;
 use App\Models\Menu\RestaurantsFactory;
+use Nette\Utils\Strings;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Throwable;
 use Tracy\ILogger;
@@ -41,6 +45,9 @@ class BuildCommand extends Command
 		parent::__construct($name);
 		$this->restaurantsFactory = $restaurantsFactory;
 		$this->logger = $logger;
+
+		// May you want to build only one restaurant
+		$this->addArgument("restaurant", InputArgument::OPTIONAL, 'Build specifically restaurant.');
 	}
 
 
@@ -52,8 +59,14 @@ class BuildCommand extends Command
 	protected function execute(InputInterface $input, OutputInterface $output)
 	{
 		$restaurants = $this->restaurantsFactory->getRestaurants();
+		$specifically = $input->getArgument("restaurant");
 
+		/** @var Restaurant $restaurant */
 		foreach ($restaurants as $restaurant) {
+			if ($specifically !== null && Strings::upper($specifically) !== $restaurant->slug) {
+				continue;
+			}
+
 			try {
 				$restaurant->build();
 			} catch (Throwable $exception) {

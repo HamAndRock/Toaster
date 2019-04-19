@@ -9,7 +9,7 @@ parameters:
 
 	# Database connection
 	database:
-		zone: '+1:00'
+		zone: '+2:00'
 		host: 'localhost'
 		username: 'root'
 		password:
