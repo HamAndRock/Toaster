@@ -16,7 +16,6 @@ use Nette\Utils\Strings;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Throwable;
 use Tracy\ILogger;
@@ -47,7 +46,7 @@ class BuildCommand extends Command
 		$this->logger = $logger;
 
 		// May you want to build only one restaurant
-		$this->addArgument("restaurant", InputArgument::OPTIONAL, 'Build specifically restaurant.');
+		$this->addArgument('restaurant', InputArgument::OPTIONAL, 'Build specifically restaurant.');
 	}
 
 
@@ -59,7 +58,7 @@ class BuildCommand extends Command
 	protected function execute(InputInterface $input, OutputInterface $output)
 	{
 		$restaurants = $this->restaurantsFactory->getRestaurants();
-		$specifically = $input->getArgument("restaurant");
+		$specifically = (string) $input->getArgument('restaurant');
 
 		/** @var Restaurant $restaurant */
 		foreach ($restaurants as $restaurant) {

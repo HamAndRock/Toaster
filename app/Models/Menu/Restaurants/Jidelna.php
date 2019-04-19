@@ -82,7 +82,7 @@ final class Jidelna extends Restaurant
 							$soup = Strings::trim($item->filter('.jidelnicek-typ-v')->text());
 							preg_match("/(Pol(é|e)vka)( -|)(?<name>\W.*)/", $soup, $matches);
 
-							if ($soup === "") {
+							if ($soup === '') {
 								return;
 							}
 

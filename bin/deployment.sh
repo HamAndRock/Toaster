@@ -19,4 +19,4 @@ rm -rf temp/cache/*;
 service php7.3-fpm reload
 
 # Set Nginx persmissions
-chown -R www-data:www-data ./
+chown -R www-data:www-data /var/www
