@@ -57,9 +57,10 @@ class BuildCommand extends Command
 	 */
 	protected function execute(InputInterface $input, OutputInterface $output)
 	{
+		/** @var string $specifically */
+		$specifically = $input->getArgument('restaurant');
 		$restaurants = $this->restaurantsFactory->getRestaurants();
-		$specifically = (string) $input->getArgument('restaurant');
-
+		
 		/** @var Restaurant $restaurant */
 		foreach ($restaurants as $restaurant) {
 			if ($specifically !== null && Strings::upper($specifically) !== $restaurant->slug) {
