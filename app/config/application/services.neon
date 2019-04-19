@@ -8,7 +8,6 @@ services:
 	- App\Models\Menu\Restaurants\Mexico
 	- App\Models\Menu\Restaurants\DelovaKoule
 	- App\Models\Menu\Restaurants\Lucie
-	- App\Models\Menu\Restaurants\Rieger
 	- App\Models\Menu\Restaurants\Jidelna
 
 	# Commands
