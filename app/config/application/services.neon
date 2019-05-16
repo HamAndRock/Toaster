@@ -3,12 +3,12 @@ services:
 	routing.router: App\Factories\RouterFactory::create
 
 	# Restaurands
-	- App\Models\Menu\Restaurants\Zamecka
+	- App\Models\Menu\Restaurants\Jidelna
 	- App\Models\Menu\Restaurants\Kozlovna
 	- App\Models\Menu\Restaurants\Mexico
 	- App\Models\Menu\Restaurants\DelovaKoule
 	- App\Models\Menu\Restaurants\Lucie
-	- App\Models\Menu\Restaurants\Jidelna
+	- App\Models\Menu\Restaurants\Zamecka
 
 	# Commands
 	- App\Models\Console\BuildCommand
