@@ -20,6 +20,7 @@ use DateTimeImmutable;
  * @property string $name
  * @property DateTimeImmutable $date
  * @property int|null $price {default null}
+ * @property int $votes {default 0}
  * @property string $type {enum self::TYPE_*}
  */
 class Food extends BaseEntity

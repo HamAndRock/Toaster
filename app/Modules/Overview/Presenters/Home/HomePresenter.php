@@ -15,6 +15,8 @@ use App\Models\Menu\RestaurantsFactory;
 use App\Modules\Overview\OverviewPresenter;
 use DateTime;
 use DateTimeImmutable;
+use Nette\Application\Responses\JsonResponse;
+use Nextras\Dbal\Connection;
 
 
 class HomePresenter extends OverviewPresenter
@@ -31,15 +33,21 @@ class HomePresenter extends OverviewPresenter
 	/** @var IRestaurant[] */
 	private $restaurants;
 
+	/** @var Connection */
+	private $connection;
+
 
 	/**
 	 * HomePresenter constructor.
 	 * @param RestaurantsFactory $restaurantsFactory
+	 * @param Connection $connection
 	 */
-	public function __construct(RestaurantsFactory $restaurantsFactory)
+	public function __construct(RestaurantsFactory $restaurantsFactory, Connection $connection)
 	{
 		parent::__construct();
+
 		$this->restaurants = $restaurantsFactory->getRestaurants();
+		$this->connection = $connection;
 	}
 
 
@@ -71,5 +79,12 @@ class HomePresenter extends OverviewPresenter
 		$this->template->date = $date->modify(
 			sprintf('+%s days', (string) array_search($day, $slugs, true))
 		);
+	}
+
+
+	public function handleVote(string $foodId): void
+	{
+		$this->connection->query('UPDATE menu SET votes = votes + 1 WHERE id = %i', $foodId);
+		$this->sendResponse(new JsonResponse(['state' => 'ok']));
 	}
 }

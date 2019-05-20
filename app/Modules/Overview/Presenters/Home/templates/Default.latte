@@ -16,7 +16,9 @@
 
 		{foreach $restaurants as $restaurant}
 			<div class="card mt-4">
-				<div class="card-header">{$restaurant->name}</div>
+				<div class="card-header">
+					{$restaurant->name}
+				</div>
 				<div class="card-body">
 					Polévky:
 					{foreach $soups = $restaurant->getsoups($date) as $soup}
@@ -30,7 +32,12 @@
 
 					<ul n:inner-foreach="$restaurant->getMeals($date) as $meal" class="pl-4 pl-md-5">
 						<li class="mt-4 mt-md-1">
-							{$meal->name} <b>({$meal->price} kč)</b>
+							<span class="name">
+								{$meal->name} <b>({$meal->price} kč)</b>
+							</span>
+							<span style="cursor: pointer" data-food="{$meal->id}" class="food-vote text-decoration-none">
+								⭐ <span class="votes">{$meal->votes}</span>x
+							</span>
 						</li>
 					</ul>
 					<a href="{$restaurant->link}" class="d-none d-md-inline btn btn-primary">

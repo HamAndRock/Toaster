@@ -1,0 +1,2 @@
+ALTER TABLE `menu`
+	ADD COLUMN `votes` INT NOT NULL DEFAULT '0' AFTER `type`;
