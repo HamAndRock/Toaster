@@ -17,3 +17,29 @@ parameters:
 
 	# Application domain
 	domain: https://toaster.sitole.cz
+
+	# Keys
+	keys:
+		aws:
+			security:
+			access:
+			region:
+
+	# Amazon settings
+	aws:
+		logger:
+			group: 'web-applications'
+			instance: 'toaster'
+
+# # Cloud watch logger
+# extensions:
+# 	monolog: Contributte\Monolog\DI\MonologExtension
+#
+# monolog:
+# 	hook:
+# 		  fromTracy: true
+# 		  toTracy: true
+# 	channel:
+# 		default:
+# 			handlers:
+# 				- App\Models\AWS\CloudWatchLoggerHandler::create(@aws.connector, %aws.logger.group%, %aws.logger.instance%)

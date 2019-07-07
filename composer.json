@@ -30,7 +30,12 @@
 		"nextras/orm": "^3.1",
 		"nextras/dbal": "^3.1",
 		"nextras/migrations": "^3.0",
-		"contributte/console": "^0.5.0"
+
+		"contributte/console": "^0.5.0",
+		"contributte/monolog": "^0.3.0",
+
+		"aws/aws-sdk-php": "^3.95",
+		"maxbanton/cwh": "^1.1"
 	},
 	"require-dev": {
 		"phpstan/phpstan-nette": "^0.11",

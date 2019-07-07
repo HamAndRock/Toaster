@@ -16,11 +16,6 @@ application:
 	mapping:
 		*: [App, Modules\*, Presenters\*\*Presenter]
 
-tracy:
-	fromEmail: mailer@sitole.cz
-	email: sveceny@sitole.cz
-	strictMode: true
-
 # Mail configuration
 mail:
 	smtp: true
