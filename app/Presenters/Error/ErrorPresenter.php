@@ -12,8 +12,10 @@ namespace App\Presenters\Error;
 
 use App\Models\UI\BasePresenter;
 use Nette\Application;
+use Nette\Http\Request;
 use NetteModule;
 use Tracy\ILogger;
+use Tracy\Logger;
 
 
 class ErrorPresenter extends BasePresenter
@@ -23,6 +25,12 @@ class ErrorPresenter extends BasePresenter
 	 * @inject
 	 */
 	public $logger;
+
+	/**
+	 * @var Request
+	 * @inject
+	 */
+	public $request;
 
 
 	/**
@@ -39,9 +47,15 @@ class ErrorPresenter extends BasePresenter
 			return new Application\Responses\JsonResponse(['error' => true]);
 		}
 
-		// Handle bad request exception
+		// Handle bad request
 		if ($exception instanceof Application\BadRequestException) {
-			$this->logger->log('HTTP code ' . $exception->getHttpCode(), ILogger::INFO);
+			$this->logger->log(
+				sprintf('HTTP code %s (%s)', $exception->getHttpCode(), $this->request->getUrl()->absoluteUrl), Logger::INFO
+			);
+
+			return new Application\Responses\TextResponse(
+				$this->template->renderToString(__DIR__ . '/templates/404.latte')
+			);
 		}
 
 		// Some dark magic to get presenter
