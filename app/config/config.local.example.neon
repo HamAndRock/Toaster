@@ -31,15 +31,15 @@ parameters:
 			group: 'web-applications'
 			instance: 'toaster'
 
-# # Cloud watch logger
-# extensions:
-# 	monolog: Contributte\Monolog\DI\MonologExtension
-#
-# monolog:
-# 	hook:
-# 		  fromTracy: true
-# 		  toTracy: true
-# 	channel:
-# 		default:
-# 			handlers:
-# 				- App\Models\AWS\CloudWatchLoggerHandler::create(@aws.connector, %aws.logger.group%, %aws.logger.instance%)
+# Cloud watch logger
+extensions:
+	monolog: Contributte\Monolog\DI\MonologExtension
+
+monolog:
+	hook:
+		fromTracy: true
+		toTracy: true
+	channel:
+		default:
+			handlers:
+				- App\Models\AWS\CloudWatchLoggerHandler::create(@aws.connector, %aws.logger.group%, %aws.logger.instance%)
