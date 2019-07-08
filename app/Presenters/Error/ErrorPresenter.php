@@ -52,10 +52,6 @@ class ErrorPresenter extends BasePresenter
 			$this->logger->log(
 				sprintf('HTTP code %s (%s)', $exception->getHttpCode(), $this->request->getUrl()->absoluteUrl), Logger::INFO
 			);
-
-			return new Application\Responses\TextResponse(
-				$this->template->renderToString(__DIR__ . '/templates/404.latte')
-			);
 		}
 
 		// Some dark magic to get presenter
