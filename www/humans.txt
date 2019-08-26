@@ -1,6 +1,6 @@
 Developer
-Site: sveceny [at] sitole.cz
-Twitter: @jirisveceny
+Site: sveceny [at] sitole.cz & jakub [at] havelka.net
+Twitter: @jirisveceny & @hamandrock
 Location: Czech Republic
 
 Standards: HTML5, CSS3, DRY, OOP
