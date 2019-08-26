@@ -1,11 +1,5 @@
 parameters:
 	# Mailer SMTP
-	mail:
-		host: 'smtp.mailtrap.io'
-		username:
-		password:
-		secure: tls
-		port: 2525
 
 	# Database connection
 	database:
@@ -16,30 +10,5 @@ parameters:
 		database:
 
 	# Application domain
-	domain: https://toaster.sitole.cz
+	domain: https://toustovac.havelka.net
 
-	# Keys
-	keys:
-		aws:
-			security:
-			access:
-			region:
-
-	# Amazon settings
-	aws:
-		logger:
-			group: 'web-applications'
-			instance: 'toaster'
-
-# Cloud watch logger
-extensions:
-	monolog: Contributte\Monolog\DI\MonologExtension
-
-monolog:
-	hook:
-		fromTracy: true
-		toTracy: true
-	channel:
-		default:
-			handlers:
-				- App\Models\AWS\CloudWatchLoggerHandler::create(@aws.connector, %aws.logger.group%, %aws.logger.instance%)

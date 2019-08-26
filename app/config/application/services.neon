@@ -13,8 +13,6 @@ services:
 	# Commands
 	- App\Models\Console\BuildCommand
 
-	# Managers
-	aws.connector: App\Models\AWS\Connector(%keys.aws.region%, %keys.aws.secret%, %keys.aws.access%)
 
 decorator:
 	App\Models\Menu\IRestaurant:

@@ -16,15 +16,6 @@ application:
 	mapping:
 		*: [App, Modules\*, Presenters\*\*Presenter]
 
-# Mail configuration
-mail:
-	smtp: true
-	persistent: true
-	host: %mail.host%
-	username: %mail.username%
-	password: %mail.password%
-	secure: %mail.secure%
-	port: %mail.port%
 
 # Console configuration
 console:
